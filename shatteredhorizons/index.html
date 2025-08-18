@@ -1,19 +1,163 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Shattered Horizons Manga</title>
+  <title>Shattered Horizons - Manga Viewer</title>
   <link rel="stylesheet" href="../style.css">
+  <style>
+    .pages {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      gap: 24px;
+    }
+    .page-img {
+      max-width: 45vw;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+    @media (max-width: 700px) {
+      .pages {
+        flex-direction: column;
+        gap: 0;
+      }
+      .page-img {
+        max-width: 90vw;
+      }
+    }
+    .nav-btn {
+      margin: 30px 10px 10px 10px;
+      font-size: 1.5em;
+      padding: 8px 20px;
+      border-radius: 6px;
+      border: none;
+      background: #ececec;
+      color: #222;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    body.dark-mode .nav-btn {
+      background: #222;
+      color: #eaeaea;
+    }
+  </style>
 </head>
 <body>
   <button id="mode-toggle">🌙 Dark Mode</button>
-  <img src="cover.png" alt="Shattered Horizons Cover" class="cover-img">
-  <h1>Shattered Horizons</h1>
-  <ul>
-    <li><a href="manga/chapter1/index.html">Chapter 1</a></li>
-    <!-- Add more chapters here -->
-  </ul>
-  <a href="../index.html">Back to Manga List</a>
+  <h2 id="chapter-title"></h2>
+  <div id="pages" class="pages"></div>
+  <div>
+    <button class="nav-btn" id="prev-btn">&larr; Prev</button>
+    <button class="nav-btn" id="next-btn">Next &rarr;</button>
+  </div>
+  <br>
+  <a href="index.html">Back to Shattered Horizons</a>
   <script>
+    // Configure your chapters and page counts here
+    const chapters = {
+      chapter1: {
+        title: "Chapter 1",
+        pageCount: 3
+      },
+      chapter2: {
+        title: "Chapter 2",
+        pageCount: 3
+      }
+      // Add more chapters as needed
+    };
+
+    // Get chapter from URL query parameter
+    function getChapterFromURL() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('chapter');
+    }
+
+    function isMobile() {
+      return window.innerWidth <= 700;
+    }
+
+    let current = 0; // Current page index
+
+    function getPagesArray(chapter, pageCount) {
+      // Returns an array of page image paths for the chapter
+      const arr = [];
+      for (let i = 1; i <= pageCount; i++) {
+        arr.push(`manga/${chapter}/page${i}.png`);
+      }
+      return arr;
+    }
+
+    let pages = [];
+    let chapterName = "";
+    function render() {
+      const container = document.getElementById('pages');
+      container.innerHTML = '';
+      document.getElementById('chapter-title').textContent = chapters[chapterName]?.title || "Unknown Chapter";
+      if (isMobile()) {
+        // Show only 1 page
+        if (pages[current]) {
+          const img = document.createElement('img');
+          img.src = pages[current];
+          img.alt = `Page ${current+1}`;
+          img.className = "page-img";
+          container.appendChild(img);
+        }
+      } else {
+        // Show 2 pages side by side
+        for (let i = 0; i < 2; i++) {
+          const idx = current + i;
+          if (pages[idx]) {
+            const img = document.createElement('img');
+            img.src = pages[idx];
+            img.alt = `Page ${idx+1}`;
+            img.className = "page-img";
+            container.appendChild(img);
+          }
+        }
+      }
+      // Button disabling
+      document.getElementById('prev-btn').disabled = current === 0;
+      document.getElementById('next-btn').disabled = isMobile() ?
+        (current >= pages.length-1) :
+        (current >= pages.length-2);
+    }
+
+    function next() {
+      if (isMobile()) {
+        if (current < pages.length-1) current++;
+      } else {
+        if (current < pages.length-2) current += 2;
+        else if (current < pages.length-1) current++;
+      }
+      render();
+    }
+
+    function prev() {
+      if (isMobile()) {
+        if (current > 0) current--;
+      } else {
+        if (current > 1) current -= 2;
+        else if (current > 0) current = 0;
+      }
+      render();
+    }
+
+    document.getElementById('prev-btn').onclick = prev;
+    document.getElementById('next-btn').onclick = next;
+
+    window.addEventListener('keydown', function(e) {
+      if (isMobile()) return;
+      if (e.key === 'ArrowRight' || e.key.toLowerCase() === 'd' || e.key === ' ') next();
+      else if (e.key === 'ArrowLeft' || e.key.toLowerCase() === 'a') prev();
+    });
+
+    window.addEventListener('resize', function() {
+      if (isMobile() && current >= pages.length) current = pages.length-1;
+      render();
+    });
+
+    // Dark mode toggle
     const toggleBtn = document.getElementById('mode-toggle');
     const darkClass = 'dark-mode';
     toggleBtn.onclick = function() {
@@ -21,6 +165,18 @@
       toggleBtn.textContent =
         document.body.classList.contains(darkClass) ? '☀️ Light Mode' : '🌙 Dark Mode';
     };
+
+    // Initialization
+    chapterName = getChapterFromURL();
+    if (!chapters[chapterName]) {
+      document.getElementById('chapter-title').textContent = "Chapter not found!";
+      document.getElementById('pages').textContent = "Invalid chapter parameter.";
+      document.getElementById('prev-btn').style.display = "none";
+      document.getElementById('next-btn').style.display = "none";
+    } else {
+      pages = getPagesArray(chapterName, chapters[chapterName].pageCount);
+      render();
+    }
   </script>
 </body>
 </html>
