@@ -114,7 +114,7 @@
   </style>
 </head>
 <body>
-  <button id="mode-toggle">🌙 Dark Mode</button>
+  <button id="mode-toggle"></button>
   <div class="main-content">
     <h1>Welcome to the Manga Library</h1>
     <div class="manga-list">
@@ -124,49 +124,42 @@
           <div class="manga-title">Shattered Horizons</div>
         </a>
       </div>
+      <!-- Add more manga here -->
     </div>
   </div>
   <script>
-    // UNIVERSAL DARK/LIGHT/SYSTEM MODE LOGIC
-    // For all pages, just copy this block!
+    // Universal DARK/LIGHT/SYSTEM mode logic for all pages
     const toggleBtn = document.getElementById('mode-toggle');
     const DARK_KEY = 'manga-dark-mode-setting';
     const MODES = ['dark', 'light', 'system'];
-    const ICONS = {
-      dark: '☀️ Light Mode',
-      light: '🖤 System Appearance',
-      system: '🌙 Dark Mode'
+    // Displayed text for each mode
+    const BUTTON_TEXT = {
+      dark: '🌙 Dark Mode',
+      light: '☀️ Light Mode',
+      system: '🖤 Auto (System Appearance)'
     };
 
-    // Get user choice ("dark", "light", "system")
     function getUserMode() {
       return localStorage.getItem(DARK_KEY) || 'system';
     }
 
-    // Apply chosen mode, or follow system
     function applyMode(mode) {
       document.body.classList.remove('dark-mode', 'light-mode');
       if (mode === 'dark') {
         document.body.classList.add('dark-mode');
-        toggleBtn.textContent = ICONS.dark;
       } else if (mode === 'light') {
         document.body.classList.add('light-mode');
-        toggleBtn.textContent = ICONS.light;
-      } else {
-        // "system"
-        toggleBtn.textContent = ICONS.system;
-        // No class; use prefers-color-scheme (CSS handles it)
       }
+      // No class if 'system': CSS handles it
+      toggleBtn.textContent = BUTTON_TEXT[mode];
     }
 
-    // Initial setup
     function initMode() {
       const mode = getUserMode();
       applyMode(mode);
     }
     initMode();
 
-    // Cycle modes on click: dark → light → system → dark ...
     toggleBtn.onclick = function() {
       let mode = getUserMode();
       let nextIndex = (MODES.indexOf(mode) + 1) % MODES.length;
@@ -175,7 +168,7 @@
       applyMode(nextMode);
     };
 
-    // If "system" mode, respond to system changes live
+    // If "system", respond to system changes live
     if (window.matchMedia) {
       window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
         if (getUserMode() === 'system') {
