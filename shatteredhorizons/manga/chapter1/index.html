@@ -3,16 +3,146 @@
 <head>
   <title>Shattered Horizons - Chapter 1</title>
   <link rel="stylesheet" href="../../../style.css">
+  <style>
+    .pages {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      gap: 24px;
+    }
+    .page-img {
+      max-width: 45vw;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+    /* Mobile: show 1 page only */
+    @media (max-width: 700px) {
+      .pages {
+        flex-direction: column;
+        gap: 0;
+      }
+      .page-img {
+        max-width: 90vw;
+      }
+    }
+    .nav-btn {
+      margin: 30px 10px 10px 10px;
+      font-size: 1.5em;
+      padding: 8px 20px;
+      border-radius: 6px;
+      border: none;
+      background: #ececec;
+      color: #222;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    body.dark-mode .nav-btn {
+      background: #222;
+      color: #eaeaea;
+    }
+  </style>
 </head>
 <body>
   <button id="mode-toggle">🌙 Dark Mode</button>
   <h2>Chapter 1</h2>
-  <img src="page1.png" alt="Page 1">
-  <img src="page2.png" alt="Page 2">
-  <!-- Add more pages as needed -->
+  <div id="pages" class="pages">
+    <!-- Pages will be rendered here -->
+  </div>
+  <div>
+    <button class="nav-btn" id="prev-btn">&larr; Prev</button>
+    <button class="nav-btn" id="next-btn">Next &rarr;</button>
+  </div>
   <br>
   <a href="../../index.html">Back to Shattered Horizons</a>
   <script>
+    const pages = [
+      "page1.png",
+      "page2.png",
+      // Add more pages here, e.g. "page3.png", "page4.png"
+    ];
+
+    // Detect if mobile (show only 1 page)
+    function isMobile() {
+      return window.innerWidth <= 700;
+    }
+
+    let current = 0; // Index of current page pair
+
+    function render() {
+      const container = document.getElementById('pages');
+      container.innerHTML = '';
+      if (isMobile()) {
+        // Show only 1 page (for mobile)
+        if (pages[current]) {
+          const img = document.createElement('img');
+          img.src = pages[current];
+          img.alt = "Page " + (current+1);
+          img.className = "page-img";
+          container.appendChild(img);
+        }
+      } else {
+        // Show 2 pages side by side (for desktop/tablet)
+        for (let i = 0; i < 2; i++) {
+          const idx = current + i;
+          if (pages[idx]) {
+            const img = document.createElement('img');
+            img.src = pages[idx];
+            img.alt = "Page " + (idx+1);
+            img.className = "page-img";
+            container.appendChild(img);
+          }
+        }
+      }
+      // Disable prev/next buttons at start/end
+      document.getElementById('prev-btn').disabled = current === 0;
+      document.getElementById('next-btn').disabled = isMobile() ?
+        (current >= pages.length-1) :
+        (current >= pages.length-2);
+    }
+
+    function next() {
+      if (isMobile()) {
+        if (current < pages.length-1) current++;
+      } else {
+        if (current < pages.length-2) current += 2;
+        else if (current < pages.length-1) current++; // for odd number of pages
+      }
+      render();
+    }
+
+    function prev() {
+      if (isMobile()) {
+        if (current > 0) current--;
+      } else {
+        if (current > 1) current -= 2;
+        else if (current > 0) current = 0;
+      }
+      render();
+    }
+
+    document.getElementById('prev-btn').onclick = prev;
+    document.getElementById('next-btn').onclick = next;
+
+    // Keyboard navigation for desktop/tablet
+    window.addEventListener('keydown', function(e) {
+      if (isMobile()) return;
+      if (e.key === 'ArrowRight' || e.key.toLowerCase() === 'd' || e.key === ' ') {
+        next();
+      } else if (e.key === 'ArrowLeft' || e.key.toLowerCase() === 'a') {
+        prev();
+      }
+    });
+
+    // Re-render on window resize (switch between mobile/desktop layout)
+    window.addEventListener('resize', function() {
+      // Adjust current index if needed
+      if (isMobile() && current >= pages.length) current = pages.length-1;
+      render();
+    });
+
+    // Dark mode toggle
     const toggleBtn = document.getElementById('mode-toggle');
     const darkClass = 'dark-mode';
     toggleBtn.onclick = function() {
@@ -20,6 +150,9 @@
       toggleBtn.textContent =
         document.body.classList.contains(darkClass) ? '☀️ Light Mode' : '🌙 Dark Mode';
     };
+
+    // Initial render
+    render();
   </script>
 </body>
 </html>
