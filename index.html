@@ -82,6 +82,32 @@
       body:not(.dark-mode):not(.light-mode) .cover-thumb:hover {
         background: #333;
       }
+      body:not(.dark-mode):not(.light-mode) #mode-toggle {
+        background: #232323;
+        color: #eaeaea;
+        border: 1px solid #444;
+      }
+    }
+    @media (prefers-color-scheme: light) {
+      body:not(.dark-mode):not(.light-mode) {
+        background: #fff;
+        color: #222;
+      }
+      body:not(.dark-mode):not(.light-mode) a { color: #2b6cb0; }
+      body:not(.dark-mode):not(.light-mode) h1, 
+      body:not(.dark-mode):not(.light-mode) h2 { color: #222; }
+      body:not(.dark-mode):not(.light-mode) .cover-thumb {
+        background: #fff;
+        box-shadow: 0 2px 16px #2222;
+      }
+      body:not(.dark-mode):not(.light-mode) .cover-thumb:hover {
+        background: #fdf6e3;
+      }
+      body:not(.dark-mode):not(.light-mode) #mode-toggle {
+        background: #f8f8f8;
+        color: #222;
+        border: 1px solid #ddd;
+      }
     }
     /* Manual dark mode override */
     body.dark-mode {
@@ -97,6 +123,11 @@
     body.dark-mode .cover-thumb:hover {
       background: #333 !important;
     }
+    body.dark-mode #mode-toggle {
+      background: #232323 !important;
+      color: #eaeaea !important;
+      border: 1px solid #444 !important;
+    }
     /* Manual light mode override */
     body.light-mode {
       background: #fff !important;
@@ -110,6 +141,21 @@
     }
     body.light-mode .cover-thumb:hover {
       background: #fdf6e3 !important;
+    }
+    body.light-mode #mode-toggle {
+      background: #f8f8f8 !important;
+      color: #222 !important;
+      border: 1px solid #ddd !important;
+    }
+    /* Button styling */
+    #mode-toggle {
+      padding: 0.5em 1.2em;
+      border-radius: 7px;
+      font-size: 1.03em;
+      margin: 18px;
+      cursor: pointer;
+      transition: background 0.2s;
+      outline: none;
     }
   </style>
 </head>
@@ -132,11 +178,10 @@
     const toggleBtn = document.getElementById('mode-toggle');
     const DARK_KEY = 'manga-dark-mode-setting';
     const MODES = ['dark', 'light', 'system'];
-    // Displayed text for each mode
     const BUTTON_TEXT = {
       dark: '🌙 Dark Mode',
       light: '☀️ Light Mode',
-      system: '🖤 Auto (System Appearance)'
+      system: 'Auto (System Appearance)'
     };
 
     function getUserMode() {
