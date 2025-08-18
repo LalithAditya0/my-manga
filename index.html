@@ -5,18 +5,37 @@
   <link rel="stylesheet" href="style.css">
   <style>
     .cover-thumb {
-      transition: transform 0.2s cubic-bezier(.4,2,.3,1), box-shadow 0.2s;
+      transition: 
+        transform 0.35s cubic-bezier(.33,1,.68,1), 
+        box-shadow 0.35s cubic-bezier(.33,1,.68,1);
       cursor: pointer;
-      box-shadow: 0 2px 8px #2222;
+      box-shadow: 0 2px 16px #2222;
       vertical-align: middle;
-      border-radius: 6px;
-      width: 80px;
-      margin-right: 8px;
+      border-radius: 8px;
+      width: 120px;
+      margin-right: 12px;
+      background: #fff;
     }
     .cover-thumb:hover {
-      transform: scale(1.18);
-      box-shadow: 0 6px 24px #2228;
+      transform: scale(1.22);
+      box-shadow: 0 12px 36px #2227;
       z-index: 2;
+      background: #fdf6e3;
+    }
+    /* Optional: make list look nicer */
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    ul li {
+      margin-bottom: 32px;
+      font-size: 1.2em;
+      display: flex;
+      align-items: center;
+    }
+    a {
+      text-decoration: none;
+      color: inherit;
     }
   </style>
 </head>
@@ -27,17 +46,10 @@
     <li>
       <a href="shatteredhorizons/index.html">
         <img src="shatteredhorizons/cover.png" alt="Shattered Horizons" class="cover-thumb">
-        Shattered Horizons
+        <span>Shattered Horizons</span>
       </a>
     </li>
-    <!-- Add more manga here, e.g.:
-    <li>
-      <a href="anothermanga/index.html">
-        <img src="anothermanga/cover.png" alt="Another Manga" class="cover-thumb">
-        Another Manga
-      </a>
-    </li>
-    -->
+    <!-- Add more manga here -->
   </ul>
   <script>
     // Persistent dark mode logic
