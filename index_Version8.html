@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Manga</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <button id="mode-toggle">🌙 Dark Mode</button>
+  <h1>Manga</h1>
+  <ul>
+    <li>
+      <a href="shatteredhorizons/index.html">
+        <img src="shatteredhorizons/cover.png" alt="Shattered Horizons Cover" class="cover-img">
+        <span>Shattered Horizons</span>
+      </a>
+    </li>
+    <!-- Add more manga options here -->
+  </ul>
+  <script>
+    const toggleBtn = document.getElementById('mode-toggle');
+    const darkClass = 'dark-mode';
+    toggleBtn.onclick = function() {
+      document.body.classList.toggle(darkClass);
+      toggleBtn.textContent =
+        document.body.classList.contains(darkClass) ? '☀️ Light Mode' : '🌙 Dark Mode';
+    };
+  </script>
+</body>
+</html>
