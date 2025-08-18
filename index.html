@@ -1,28 +1,58 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Manga</title>
+  <title>Manga Library</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    .cover-thumb {
+      transition: transform 0.2s cubic-bezier(.4,2,.3,1), box-shadow 0.2s;
+      cursor: pointer;
+      box-shadow: 0 2px 8px #2222;
+      vertical-align: middle;
+      border-radius: 6px;
+      width: 80px;
+      margin-right: 8px;
+    }
+    .cover-thumb:hover {
+      transform: scale(1.18);
+      box-shadow: 0 6px 24px #2228;
+      z-index: 2;
+    }
+  </style>
 </head>
 <body>
   <button id="mode-toggle">🌙 Dark Mode</button>
-  <h1>Manga</h1>
+  <h1>Welcome to the Manga Library</h1>
   <ul>
     <li>
       <a href="shatteredhorizons/index.html">
-        <img src="shatteredhorizons/cover.png" alt="Shattered Horizons Cover" class="cover-img">
-        <span>Shattered Horizons</span>
+        <img src="shatteredhorizons/cover.png" alt="Shattered Horizons" class="cover-thumb">
+        Shattered Horizons
       </a>
     </li>
-    <!-- Add more manga options here -->
+    <!-- Add more manga here, e.g.:
+    <li>
+      <a href="anothermanga/index.html">
+        <img src="anothermanga/cover.png" alt="Another Manga" class="cover-thumb">
+        Another Manga
+      </a>
+    </li>
+    -->
   </ul>
   <script>
-    const toggleBtn = document.getElementById('mode-toggle');
+    // Persistent dark mode logic
     const darkClass = 'dark-mode';
+    const toggleBtn = document.getElementById('mode-toggle');
+    const DARK_KEY = 'manga-dark-mode';
+    function setDarkMode(on) {
+      document.body.classList.toggle(darkClass, on);
+      toggleBtn.textContent = on ? '☀️ Light Mode' : '🌙 Dark Mode';
+      localStorage.setItem(DARK_KEY, on ? '1' : '');
+    }
+    setDarkMode(localStorage.getItem(DARK_KEY) === '1');
     toggleBtn.onclick = function() {
-      document.body.classList.toggle(darkClass);
-      toggleBtn.textContent =
-        document.body.classList.contains(darkClass) ? '☀️ Light Mode' : '🌙 Dark Mode';
+      const isDark = !document.body.classList.contains(darkClass);
+      setDarkMode(isDark);
     };
   </script>
 </body>
