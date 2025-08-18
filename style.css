@@ -6,7 +6,7 @@ body {
   transition: background 0.2s, color 0.2s;
 }
 img.cover-img {
-  width: 270px;
+  width: 360px;
   max-width: 90vw;
   display: block;
   margin: 0 auto 10px auto;
