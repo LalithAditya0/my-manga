@@ -4,54 +4,85 @@
   <title>Manga Library</title>
   <link rel="stylesheet" href="style.css">
   <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+    /* Center the main content */
+    .main-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 40px;
+    }
+    .manga-list {
+      display: flex;
+      gap: 48px;
+      justify-content: center;
+      margin-top: 40px;
+      flex-wrap: wrap;
+    }
+    .manga-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      font-size: 1.2em;
+    }
     .cover-thumb {
+      width: 300px;
+      max-width: 92vw;
+      border-radius: 12px;
+      box-shadow: 0 2px 16px #2222;
+      background: #fff;
       transition: 
         transform 0.35s cubic-bezier(.33,1,.68,1), 
         box-shadow 0.35s cubic-bezier(.33,1,.68,1);
       cursor: pointer;
-      box-shadow: 0 2px 16px #2222;
-      vertical-align: middle;
-      horizontal-align: middle;
-      border-radius: 8px;
-      width: 360px;
-      margin-right: 12px;
-      background: #fff;
+      margin-bottom: 20px;
     }
     .cover-thumb:hover {
-      transform: scale(1.22);
+      transform: scale(1.08);
       box-shadow: 0 12px 36px #2227;
       z-index: 2;
       background: #fdf6e3;
-    }
-    /* Optional: make list look nicer */
-    ul {
-      list-style: none;
-      padding: 0;
-    }
-    ul li {
-      margin-bottom: 32px;
-      font-size: 1.2em;
-      display: flex;
-      align-items: center;
     }
     a {
       text-decoration: none;
       color: inherit;
     }
+    @media (max-width: 600px) {
+      .cover-thumb {
+        width: 96vw;
+        max-width: 96vw;
+      }
+      .manga-list {
+        gap: 24px;
+      }
+    }
   </style>
 </head>
 <body>
   <button id="mode-toggle">🌙 Dark Mode</button>
-  <h1>Welcome to the Manga Library</h1>
-  <ul>
-    <li>
-      <a href="shatteredhorizons/index.html">
-        <img src="shatteredhorizons/cover.png" alt="Shattered Horizons" class="cover-thumb">
-        <span>Shattered Horizons</span>
-      </a>
-    </li>
-    <!-- Add more manga here -->
-  </ul>
+  <div class="main-content">
+    <h1>Welcome to the Manga Library</h1>
+    <div class="manga-list">
+      <div class="manga-item">
+        <a href="shatteredhorizons/index.html">
+          <img src="shatteredhorizons/cover.png" alt="Shattered Horizons" class="cover-thumb">
+          <div>Shattered Horizons</div>
+        </a>
+      </div>
+      <!-- Add more manga here:
+      <div class="manga-item">
+        <a href="anothermanga/index.html">
+          <img src="anothermanga/cover.png" alt="Another Manga" class="cover-thumb">
+          <div>Another Manga</div>
+        </a>
+      </div>
+      -->
+    </div>
+  </div>
   <script>
     // Persistent dark mode logic
     const darkClass = 'dark-mode';
