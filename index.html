@@ -39,13 +39,19 @@
         transform 0.35s cubic-bezier(.33,1,.68,1), 
         box-shadow 0.35s cubic-bezier(.33,1,.68,1);
       cursor: pointer;
-      margin-bottom: 20px;
+      margin-bottom: 16px;
     }
     .cover-thumb:hover {
       transform: scale(1.08);
       box-shadow: 0 12px 36px #2227;
       z-index: 2;
       background: #fdf6e3;
+    }
+    .manga-title {
+      margin-top: 0;
+      font-weight: bold;
+      font-size: 1.1em;
+      letter-spacing: 0.5px;
     }
     a {
       text-decoration: none;
@@ -70,14 +76,14 @@
       <div class="manga-item">
         <a href="shatteredhorizons/index.html">
           <img src="shatteredhorizons/cover.png" alt="Shattered Horizons" class="cover-thumb">
-          <div>Shattered Horizons</div>
+          <div class="manga-title">Shattered Horizons</div>
         </a>
       </div>
       <!-- Add more manga here:
       <div class="manga-item">
         <a href="anothermanga/index.html">
           <img src="anothermanga/cover.png" alt="Another Manga" class="cover-thumb">
-          <div>Another Manga</div>
+          <div class="manga-title">Another Manga</div>
         </a>
       </div>
       -->
