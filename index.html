@@ -87,6 +87,9 @@
         color: #eaeaea;
         border: 1px solid #444;
       }
+      body:not(.dark-mode):not(.light-mode) #mode-toggle:hover {
+        background: #2a2a2a;
+      }
     }
     @media (prefers-color-scheme: light) {
       body:not(.dark-mode):not(.light-mode) {
@@ -108,6 +111,9 @@
         color: #222;
         border: 1px solid #ddd;
       }
+      body:not(.dark-mode):not(.light-mode) #mode-toggle:hover {
+        background: #e8e8e8;
+      }
     }
     /* Manual dark mode override */
     body.dark-mode {
@@ -128,6 +134,9 @@
       color: #eaeaea !important;
       border: 1px solid #444 !important;
     }
+    body.dark-mode #mode-toggle:hover {
+      background: #2a2a2a !important;
+    }
     /* Manual light mode override */
     body.light-mode {
       background: #fff !important;
@@ -146,6 +155,9 @@
       background: #f8f8f8 !important;
       color: #222 !important;
       border: 1px solid #ddd !important;
+    }
+    body.light-mode #mode-toggle:hover {
+      background: #e8e8e8 !important;
     }
     /* Button styling */
     #mode-toggle {
