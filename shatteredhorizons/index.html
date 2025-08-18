@@ -1,5 +1,37 @@
-<ul>
-  <li><a href="viewer.html?chapter=chapter1">Chapter 1</a></li>
-  <li><a href="viewer.html?chapter=chapter2">Chapter 2</a></li>
-  <!-- More chapters -->
-</ul>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Shattered Horizons</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <button id="mode-toggle">🌙 Dark Mode</button>
+  <h1>Shattered Horizons</h1>
+  <img src="cover.png" alt="Shattered Horizons Cover" style="max-width:300px;border-radius:12px;box-shadow:0 4px 24px #2224;">
+  <p>
+    <a href="../index.html">← Back to Manga List</a>
+  </p>
+  <h2>Chapters</h2>
+  <ul>
+    <li><a href="viewer.html?chapter=chapter1">Chapter 1</a></li>
+    <li><a href="viewer.html?chapter=chapter2">Chapter 2</a></li>
+    <!-- Add more chapters here -->
+  </ul>
+  <script>
+    // Dark mode (persistent)
+    const darkClass = 'dark-mode';
+    const toggleBtn = document.getElementById('mode-toggle');
+    const DARK_KEY = 'manga-dark-mode';
+    function setDarkMode(on) {
+      document.body.classList.toggle(darkClass, on);
+      toggleBtn.textContent = on ? '☀️ Light Mode' : '🌙 Dark Mode';
+      localStorage.setItem(DARK_KEY, on ? '1' : '');
+    }
+    setDarkMode(localStorage.getItem(DARK_KEY) === '1');
+    toggleBtn.onclick = function() {
+      const isDark = !document.body.classList.contains(darkClass);
+      setDarkMode(isDark);
+    };
+  </script>
+</body>
+</html>
