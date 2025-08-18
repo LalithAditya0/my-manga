@@ -8,7 +8,6 @@
       margin: 0;
       padding: 0;
     }
-    /* Center the main content */
     .main-content {
       display: flex;
       flex-direction: column;
@@ -66,6 +65,52 @@
         gap: 24px;
       }
     }
+
+    /* System dark mode (prefers-color-scheme) */
+    @media (prefers-color-scheme: dark) {
+      body:not(.dark-mode):not(.light-mode) {
+        background: #181818;
+        color: #eaeaea;
+      }
+      body:not(.dark-mode):not(.light-mode) a { color: #90cdf4; }
+      body:not(.dark-mode):not(.light-mode) h1, 
+      body:not(.dark-mode):not(.light-mode) h2 { color: #f4e06d; }
+      body:not(.dark-mode):not(.light-mode) .cover-thumb {
+        background: #222;
+        box-shadow: 0 2px 16px #0008;
+      }
+      body:not(.dark-mode):not(.light-mode) .cover-thumb:hover {
+        background: #333;
+      }
+    }
+    /* Manual dark mode override */
+    body.dark-mode {
+      background: #181818 !important;
+      color: #eaeaea !important;
+    }
+    body.dark-mode a { color: #90cdf4 !important; }
+    body.dark-mode h1, body.dark-mode h2 { color: #f4e06d !important; }
+    body.dark-mode .cover-thumb {
+      background: #222 !important;
+      box-shadow: 0 2px 16px #0008 !important;
+    }
+    body.dark-mode .cover-thumb:hover {
+      background: #333 !important;
+    }
+    /* Manual light mode override */
+    body.light-mode {
+      background: #fff !important;
+      color: #222 !important;
+    }
+    body.light-mode a { color: #2b6cb0 !important; }
+    body.light-mode h1, body.light-mode h2 { color: #222 !important; }
+    body.light-mode .cover-thumb {
+      background: #fff !important;
+      box-shadow: 0 2px 16px #2222 !important;
+    }
+    body.light-mode .cover-thumb:hover {
+      background: #fdf6e3 !important;
+    }
   </style>
 </head>
 <body>
@@ -79,31 +124,65 @@
           <div class="manga-title">Shattered Horizons</div>
         </a>
       </div>
-      <!-- Add more manga here:
-      <div class="manga-item">
-        <a href="anothermanga/index.html">
-          <img src="anothermanga/cover.png" alt="Another Manga" class="cover-thumb">
-          <div class="manga-title">Another Manga</div>
-        </a>
-      </div>
-      -->
     </div>
   </div>
   <script>
-    // Persistent dark mode logic
-    const darkClass = 'dark-mode';
+    // UNIVERSAL DARK/LIGHT/SYSTEM MODE LOGIC
+    // For all pages, just copy this block!
     const toggleBtn = document.getElementById('mode-toggle');
-    const DARK_KEY = 'manga-dark-mode';
-    function setDarkMode(on) {
-      document.body.classList.toggle(darkClass, on);
-      toggleBtn.textContent = on ? '☀️ Light Mode' : '🌙 Dark Mode';
-      localStorage.setItem(DARK_KEY, on ? '1' : '');
-    }
-    setDarkMode(localStorage.getItem(DARK_KEY) === '1');
-    toggleBtn.onclick = function() {
-      const isDark = !document.body.classList.contains(darkClass);
-      setDarkMode(isDark);
+    const DARK_KEY = 'manga-dark-mode-setting';
+    const MODES = ['dark', 'light', 'system'];
+    const ICONS = {
+      dark: '☀️ Light Mode',
+      light: '🖤 System Appearance',
+      system: '🌙 Dark Mode'
     };
+
+    // Get user choice ("dark", "light", "system")
+    function getUserMode() {
+      return localStorage.getItem(DARK_KEY) || 'system';
+    }
+
+    // Apply chosen mode, or follow system
+    function applyMode(mode) {
+      document.body.classList.remove('dark-mode', 'light-mode');
+      if (mode === 'dark') {
+        document.body.classList.add('dark-mode');
+        toggleBtn.textContent = ICONS.dark;
+      } else if (mode === 'light') {
+        document.body.classList.add('light-mode');
+        toggleBtn.textContent = ICONS.light;
+      } else {
+        // "system"
+        toggleBtn.textContent = ICONS.system;
+        // No class; use prefers-color-scheme (CSS handles it)
+      }
+    }
+
+    // Initial setup
+    function initMode() {
+      const mode = getUserMode();
+      applyMode(mode);
+    }
+    initMode();
+
+    // Cycle modes on click: dark → light → system → dark ...
+    toggleBtn.onclick = function() {
+      let mode = getUserMode();
+      let nextIndex = (MODES.indexOf(mode) + 1) % MODES.length;
+      let nextMode = MODES[nextIndex];
+      localStorage.setItem(DARK_KEY, nextMode);
+      applyMode(nextMode);
+    };
+
+    // If "system" mode, respond to system changes live
+    if (window.matchMedia) {
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+        if (getUserMode() === 'system') {
+          applyMode('system');
+        }
+      });
+    }
   </script>
 </body>
 </html>
