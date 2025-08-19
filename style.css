@@ -29,6 +29,7 @@ body {
   }
   #mode-toggle:hover { background: #2a2a2a; }
 }
+
 @media (prefers-color-scheme: light) {
   body {
     background: #fff;
@@ -55,6 +56,7 @@ img.cover-img {
   border-radius: 5px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 }
+
 img {
   max-width: 80vw;
   margin: 10px 0;
@@ -74,4 +76,75 @@ li { margin: 30px 0; }
 a {
   text-decoration: none;
   color: #0074D9;
-  fon
+  font-size: 1.2em;
+  display: inline-block;
+}
+a:hover { text-decoration: underline; }
+
+/* ==========================
+   THEME TOGGLE BUTTON
+   ========================== */
+#mode-toggle {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  padding: 0.6em 1.4em;
+  border-radius: 8px;
+  font-size: 1.03em;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border 0.2s, box-shadow 0.2s;
+  outline: none;
+  border: none;
+  min-width: 120px;
+  min-height: 38px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+#mode-toggle:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  transform: translateY(-1px);
+}
+
+/* Default fallback text (shows until JS updates it) */
+#mode-toggle::after {
+  content: "☯ Mode";
+  font-size: 0.95em;
+  opacity: 0.85;
+}
+
+/* Once JS sets real text, hide fallback */
+#mode-toggle:not(:empty)::after {
+  content: "";
+}
+
+/* ==========================
+   DARK MODE
+   ========================== */
+body.dark-mode {
+  background: #181818;
+  color: #eaeaea;
+}
+body.dark-mode a { color: #90cdf4; }
+body.dark-mode h1, body.dark-mode h2 { color: #f4e06d; }
+body.dark-mode #mode-toggle {
+  background: #232323;
+  color: #eaeaea;
+  border: 1px solid #444;
+}
+body.dark-mode #mode-toggle:hover { background: #2a2a2a; }
+
+/* ==========================
+   LIGHT MODE
+   ========================== */
+body.light-mode {
+  background: #fff;
+  color: #222;
+}
+body.light-mode a { color: #2b6cb0; }
+body.light-mode h1, body.light-mode h2 { color: #222; }
+body.light-mode #mode-toggle {
+  background: #f8f8f8;
+  color: #222;
+  border: 1px solid #ddd;
+}
+body.light-mode #mode-toggle:hover { background: #e8e8e8; }
