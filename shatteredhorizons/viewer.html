@@ -3,19 +3,6 @@
 <head>
   <title>Shattered Horizons - Manga Viewer</title>
   <link rel="stylesheet" href="../style.css">
-  <style>
-    #mode-toggle {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      padding: 0.5em 1.2em;
-      border-radius: 7px;
-      font-size: 1.03em;
-      cursor: pointer;
-      transition: background 0.2s;
-      outline: none;
-    }
-  </style>
 </head>
 <body>
   <button id="mode-toggle"></button>
@@ -28,7 +15,6 @@
   <p><a href="index.html">← Back to Shattered Horizons</a></p>
 
   <script>
-    // Chapters config
     const chapters = {
       chapter1: { title: "Chapter 1", pageCount: 3 },
       chapter2: { title: "Chapter 2", pageCount: 3 }
@@ -108,7 +94,7 @@
       render();
     });
 
-    // 🌙 DARK/LIGHT/SYSTEM mode
+    // 🌙 Dark/Light/System toggle
     const toggleBtn = document.getElementById('mode-toggle');
     const DARK_KEY = 'manga-dark-mode-setting';
     const BUTTON_TEXT = {
@@ -127,6 +113,10 @@
       document.body.classList.remove('dark-mode', 'light-mode');
       if (mode === 'dark') document.body.classList.add('dark-mode');
       else if (mode === 'light') document.body.classList.add('light-mode');
+      else if (mode === 'system') {
+        if (systemPrefersDark()) document.body.classList.add('dark-mode');
+        else document.body.classList.add('light-mode');
+      }
       toggleBtn.textContent = BUTTON_TEXT[mode];
     }
     function setUserMode(mode) {
