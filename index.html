@@ -4,10 +4,6 @@
   <title>Manga Library</title>
   <link rel="stylesheet" href="style.css">
   <style>
-    body {
-      margin: 0;
-      padding: 0;
-    }
     .main-content {
       display: flex;
       flex-direction: column;
@@ -50,18 +46,9 @@
       font-size: 1.1em;
       letter-spacing: 0.5px;
     }
-    a {
-      text-decoration: none;
-      color: inherit;
-    }
     @media (max-width: 600px) {
-      .cover-thumb {
-        width: 96vw;
-        max-width: 96vw;
-      }
-      .manga-list {
-        gap: 24px;
-      }
+      .cover-thumb { width: 96vw; }
+      .manga-list { gap: 24px; }
     }
   </style>
 </head>
@@ -78,7 +65,7 @@
       </div>
     </div>
   </div>
-  <script>
-    const toggleBtn = document.getElementById('mode-toggle');
-    const DARK_KEY = 'manga-dark-mode-setting';
-    const BUTTON
+
+  <script src="theme.js"></script>
+</body>
+</html>
