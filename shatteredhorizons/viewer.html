@@ -7,32 +7,54 @@
   <link rel="stylesheet" href="../style.css">
 </head>
 <body>
-  <button id="mode-toggle"></button>
+  <!-- Navigation bar -->
+  <nav class="nav-bar">
+    <a href="../index.html" class="nav-btn">🏠 Home</a>
+    <a href="index.html" class="nav-btn">📖 Chapters</a>
+    <a id="prev-chapter" class="nav-btn">⬅ Prev</a>
+    <a id="next-chapter" class="nav-btn">Next ➡</a>
+    <button id="mode-toggle"></button>
+  </nav>
 
   <h1 id="chapter-title">Loading...</h1>
   <div id="pages"></div>
 
   <script>
-    // Simple viewer: load chapter images based on ?chapter=#
     const urlParams = new URLSearchParams(window.location.search);
-    const chapter = urlParams.get('chapter') || "1";
+    const chapter = parseInt(urlParams.get('chapter') || "1", 10);
 
     const pagesDiv = document.getElementById("pages");
     const title = document.getElementById("chapter-title");
     title.textContent = "Chapter " + chapter;
 
+    // ✅ Load images in correct order
     let page = 1;
-    while (true) {
+    function loadPage(num) {
       const img = new Image();
-      img.src = `manga/chapter${chapter}/page${page}.png`;
-      img.onload = () => pagesDiv.appendChild(img);
-      img.onerror = () => {};
-      if (page > 50) break; // safety cutoff
-      page++;
+      img.src = `manga/chapter${chapter}/page${num}.png`;
+      img.alt = `Page ${num}`;
+
+      img.onload = () => {
+        pagesDiv.appendChild(img);
+        loadPage(num + 1); // load next only if this exists
+      };
+      img.onerror = () => {}; // stop when page doesn't exist
+    }
+    loadPage(1);
+
+    // ✅ Setup navigation
+    const nextBtn = document.getElementById("next-chapter");
+    const prevBtn = document.getElementById("prev-chapter");
+
+    nextBtn.href = `viewer.html?chapter=${chapter + 1}`;
+    if (chapter > 1) {
+      prevBtn.href = `viewer.html?chapter=${chapter - 1}`;
+    } else {
+      prevBtn.style.display = "none"; // hide on chapter 1
     }
   </script>
 
-  <!-- Correct path: go up one level -->
+  <!-- Theme toggle -->
   <script src="../theme.js"></script>
 </body>
 </html>
