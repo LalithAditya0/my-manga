@@ -67,3 +67,38 @@ body.dark-mode {
 }
 body.dark-mode a { color: #90cdf4; }
 body.dark-mode h1, body.dark-mode h2 { color: #f4e06d; }
+/* =====================
+   THEME TOGGLE BUTTON
+   ===================== */
+#mode-toggle {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  padding: 0.5em 1.2em;
+  border-radius: 7px;
+  font-size: 1.03em;
+  cursor: pointer;
+  transition: background 0.2s;
+  outline: none;
+  border: none;
+}
+
+/* Light mode button */
+body.light-mode #mode-toggle {
+  background: #f8f8f8;
+  color: #222;
+  border: 1px solid #ddd;
+}
+body.light-mode #mode-toggle:hover {
+  background: #e8e8e8;
+}
+
+/* Dark mode button */
+body.dark-mode #mode-toggle {
+  background: #232323;
+  color: #eaeaea;
+  border: 1px solid #444;
+}
+body.dark-mode #mode-toggle:hover {
+  background: #2a2a2a;
+}
