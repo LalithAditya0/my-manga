@@ -26,17 +26,11 @@
     }
 
     function isMobile() { return window.innerWidth <= 700; }
-    let current = 0;
+    let current = 0, pages = [], chapterName = "";
 
     function getPagesArray(chapter, pageCount) {
-      const arr = [];
-      for (let i = 1; i <= pageCount; i++)
-        arr.push(`manga/${chapter}/page${i}.png`);
-      return arr;
+      return Array.from({ length: pageCount }, (_, i) => `manga/${chapter}/page${i+1}.png`);
     }
-
-    let pages = [];
-    let chapterName = "";
 
     function render() {
       const container = document.getElementById('pages');
@@ -89,62 +83,7 @@
       else if (e.key === 'ArrowLeft' || e.key.toLowerCase() === 'a') prev();
     });
 
-    window.addEventListener('resize', function() {
-      if (isMobile() && current >= pages.length) current = pages.length-1;
-      render();
-    });
-
-    // 🌙 Dark/Light/System toggle
-    const toggleBtn = document.getElementById('mode-toggle');
-    const DARK_KEY = 'manga-dark-mode-setting';
-    const BUTTON_TEXT = {
-      dark: '🌙 Dark Mode',
-      light: '☀️ Light Mode',
-      system: 'Auto (System Appearance)'
-    };
-
-    function systemPrefersDark() {
-      return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    }
-    function getUserMode() {
-      return localStorage.getItem(DARK_KEY) || 'system';
-    }
-    function applyMode(mode) {
-      document.body.classList.remove('dark-mode', 'light-mode');
-      if (mode === 'dark') document.body.classList.add('dark-mode');
-      else if (mode === 'light') document.body.classList.add('light-mode');
-      else if (mode === 'system') {
-        if (systemPrefersDark()) document.body.classList.add('dark-mode');
-        else document.body.classList.add('light-mode');
-      }
-      toggleBtn.textContent = BUTTON_TEXT[mode];
-    }
-    function setUserMode(mode) {
-      localStorage.setItem(DARK_KEY, mode);
-      applyMode(mode);
-    }
-    function initMode() { applyMode(getUserMode()); }
-    initMode();
-
-    toggleBtn.onclick = function() {
-      let mode = getUserMode();
-      const darkSystem = systemPrefersDark();
-      if (darkSystem) {
-        if (mode === 'system') setUserMode('light');
-        else if (mode === 'light') setUserMode('dark');
-        else setUserMode('system');
-      } else {
-        if (mode === 'system') setUserMode('dark');
-        else if (mode === 'dark') setUserMode('light');
-        else setUserMode('system');
-      }
-    };
-
-    if (window.matchMedia) {
-      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-        if (getUserMode() === 'system') applyMode('system');
-      });
-    }
+    window.addEventListener('resize', () => { if (isMobile() && current >= pages.length) current = pages.length-1; render(); });
 
     // Init chapter
     chapterName = getChapterFromURL();
@@ -158,5 +97,7 @@
       render();
     }
   </script>
+
+  <script src="../theme.js"></script>
 </body>
 </html>
