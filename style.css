@@ -148,3 +148,23 @@ body.light-mode #mode-toggle {
   border: 1px solid #ddd;
 }
 body.light-mode #mode-toggle:hover { background: #e8e8e8; }
+/*test*/
+.nav-bar {
+  display: flex;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.nav-btn {
+  padding: 0.4em 0.8em;
+  background: var(--button-bg, #ddd);
+  color: var(--text-color, #000);
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 0.9em;
+  transition: background 0.2s, color 0.2s;
+}
+
+.nav-btn:hover {
+  background: var(--button-hover-bg, #bbb);
+}
