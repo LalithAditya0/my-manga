@@ -34,9 +34,7 @@
       border-radius: 12px;
       box-shadow: 0 2px 16px #2222;
       background: #fff;
-      transition: 
-        transform 0.35s cubic-bezier(.33,1,.68,1), 
-        box-shadow 0.35s cubic-bezier(.33,1,.68,1);
+      transition: transform 0.35s cubic-bezier(.33,1,.68,1), box-shadow 0.35s cubic-bezier(.33,1,.68,1);
       cursor: pointer;
       margin-bottom: 16px;
     }
@@ -65,106 +63,14 @@
         gap: 24px;
       }
     }
-
-    /* System dark mode (prefers-color-scheme) */
-    @media (prefers-color-scheme: dark) {
-      body:not(.dark-mode):not(.light-mode) {
-        background: #181818;
-        color: #eaeaea;
-      }
-      body:not(.dark-mode):not(.light-mode) a { color: #90cdf4; }
-      body:not(.dark-mode):not(.light-mode) h1, 
-      body:not(.dark-mode):not(.light-mode) h2 { color: #f4e06d; }
-      body:not(.dark-mode):not(.light-mode) .cover-thumb {
-        background: #222;
-        box-shadow: 0 2px 16px #0008;
-      }
-      body:not(.dark-mode):not(.light-mode) .cover-thumb:hover {
-        background: #333;
-      }
-      body:not(.dark-mode):not(.light-mode) #mode-toggle {
-        background: #232323;
-        color: #eaeaea;
-        border: 1px solid #444;
-      }
-      body:not(.dark-mode):not(.light-mode) #mode-toggle:hover {
-        background: #2a2a2a;
-      }
-    }
-    @media (prefers-color-scheme: light) {
-      body:not(.dark-mode):not(.light-mode) {
-        background: #fff;
-        color: #222;
-      }
-      body:not(.dark-mode):not(.light-mode) a { color: #2b6cb0; }
-      body:not(.dark-mode):not(.light-mode) h1, 
-      body:not(.dark-mode):not(.light-mode) h2 { color: #222; }
-      body:not(.dark-mode):not(.light-mode) .cover-thumb {
-        background: #fff;
-        box-shadow: 0 2px 16px #2222;
-      }
-      body:not(.dark-mode):not(.light-mode) .cover-thumb:hover {
-        background: #fdf6e3;
-      }
-      body:not(.dark-mode):not(.light-mode) #mode-toggle {
-        background: #f8f8f8;
-        color: #222;
-        border: 1px solid #ddd;
-      }
-      body:not(.dark-mode):not(.light-mode) #mode-toggle:hover {
-        background: #e8e8e8;
-      }
-    }
-    /* Manual dark mode override */
-    body.dark-mode {
-      background: #181818 !important;
-      color: #eaeaea !important;
-    }
-    body.dark-mode a { color: #90cdf4 !important; }
-    body.dark-mode h1, body.dark-mode h2 { color: #f4e06d !important; }
-    body.dark-mode .cover-thumb {
-      background: #222 !important;
-      box-shadow: 0 2px 16px #0008 !important;
-    }
-    body.dark-mode .cover-thumb:hover {
-      background: #333 !important;
-    }
-    body.dark-mode #mode-toggle {
-      background: #232323 !important;
-      color: #eaeaea !important;
-      border: 1px solid #444 !important;
-    }
-    body.dark-mode #mode-toggle:hover {
-      background: #2a2a2a !important;
-    }
-    /* Manual light mode override */
-    body.light-mode {
-      background: #fff !important;
-      color: #222 !important;
-    }
-    body.light-mode a { color: #2b6cb0 !important; }
-    body.light-mode h1, body.light-mode h2 { color: #222 !important; }
-    body.light-mode .cover-thumb {
-      background: #fff !important;
-      box-shadow: 0 2px 16px #2222 !important;
-    }
-    body.light-mode .cover-thumb:hover {
-      background: #fdf6e3 !important;
-    }
-    body.light-mode #mode-toggle {
-      background: #f8f8f8 !important;
-      color: #222 !important;
-      border: 1px solid #ddd !important;
-    }
-    body.light-mode #mode-toggle:hover {
-      background: #e8e8e8 !important;
-    }
-    /* Button styling */
+    /* Toggle button styling */
     #mode-toggle {
+      position: absolute;
+      top: 20px;
+      right: 20px;
       padding: 0.5em 1.2em;
       border-radius: 7px;
       font-size: 1.03em;
-      margin: 18px;
       cursor: pointer;
       transition: background 0.2s;
       outline: none;
@@ -182,55 +88,53 @@
           <div class="manga-title">Shattered Horizons</div>
         </a>
       </div>
-      <!-- Add more manga here -->
     </div>
   </div>
   <script>
-    // Universal DARK/LIGHT/SYSTEM mode logic for all pages
     const toggleBtn = document.getElementById('mode-toggle');
     const DARK_KEY = 'manga-dark-mode-setting';
-    const MODES = ['dark', 'light', 'system'];
     const BUTTON_TEXT = {
       dark: '🌙 Dark Mode',
       light: '☀️ Light Mode',
       system: 'Auto (System Appearance)'
     };
 
+    function systemPrefersDark() {
+      return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    }
     function getUserMode() {
       return localStorage.getItem(DARK_KEY) || 'system';
     }
-
     function applyMode(mode) {
       document.body.classList.remove('dark-mode', 'light-mode');
-      if (mode === 'dark') {
-        document.body.classList.add('dark-mode');
-      } else if (mode === 'light') {
-        document.body.classList.add('light-mode');
-      }
-      // No class if 'system': CSS handles it
+      if (mode === 'dark') document.body.classList.add('dark-mode');
+      else if (mode === 'light') document.body.classList.add('light-mode');
       toggleBtn.textContent = BUTTON_TEXT[mode];
     }
-
-    function initMode() {
-      const mode = getUserMode();
+    function setUserMode(mode) {
+      localStorage.setItem(DARK_KEY, mode);
       applyMode(mode);
     }
+    function initMode() { applyMode(getUserMode()); }
     initMode();
 
     toggleBtn.onclick = function() {
       let mode = getUserMode();
-      let nextIndex = (MODES.indexOf(mode) + 1) % MODES.length;
-      let nextMode = MODES[nextIndex];
-      localStorage.setItem(DARK_KEY, nextMode);
-      applyMode(nextMode);
+      const darkSystem = systemPrefersDark();
+      if (darkSystem) {
+        if (mode === 'system') setUserMode('light');
+        else if (mode === 'light') setUserMode('dark');
+        else setUserMode('system');
+      } else {
+        if (mode === 'system') setUserMode('dark');
+        else if (mode === 'dark') setUserMode('light');
+        else setUserMode('system');
+      }
     };
 
-    // If "system", respond to system changes live
     if (window.matchMedia) {
       window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-        if (getUserMode() === 'system') {
-          applyMode('system');
-        }
+        if (getUserMode() === 'system') applyMode('system');
       });
     }
   </script>
