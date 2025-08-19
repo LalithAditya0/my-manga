@@ -3,43 +3,60 @@
 <head>
   <title>Shattered Horizons - Manga Viewer</title>
   <link rel="stylesheet" href="../style.css">
+  <style>
+    #mode-toggle {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      padding: 0.5em 1.2em;
+      border-radius: 7px;
+      font-size: 1.03em;
+      cursor: pointer;
+      transition: background 0.2s;
+      outline: none;
+    }
+  </style>
 </head>
 <body>
-  <button id="mode-toggle">🌙 Dark Mode</button>
+  <button id="mode-toggle"></button>
   <h2 id="chapter-title"></h2>
   <div id="pages" class="pages"></div>
   <div>
     <button class="nav-btn" id="prev-btn">&larr; Prev</button>
     <button class="nav-btn" id="next-btn">Next &rarr;</button>
   </div>
-  <p>
-    <a href="index.html">← Back to Shattered Horizons</a>
-  </p>
+  <p><a href="index.html">← Back to Shattered Horizons</a></p>
+
   <script>
     // Chapters config
     const chapters = {
       chapter1: { title: "Chapter 1", pageCount: 3 },
       chapter2: { title: "Chapter 2", pageCount: 3 }
-      // Add more chapters as needed
     };
+
     function getChapterFromURL() {
       const params = new URLSearchParams(window.location.search);
       return params.get('chapter');
     }
+
     function isMobile() { return window.innerWidth <= 700; }
     let current = 0;
+
     function getPagesArray(chapter, pageCount) {
       const arr = [];
       for (let i = 1; i <= pageCount; i++)
         arr.push(`manga/${chapter}/page${i}.png`);
       return arr;
     }
+
     let pages = [];
     let chapterName = "";
+
     function render() {
       const container = document.getElementById('pages');
       container.innerHTML = '';
       document.getElementById('chapter-title').textContent = chapters[chapterName]?.title || "Unknown Chapter";
+
       if (isMobile()) {
         if (pages[current]) {
           const img = document.createElement('img');
@@ -60,45 +77,86 @@
           }
         }
       }
+
       document.getElementById('prev-btn').disabled = current === 0;
       document.getElementById('next-btn').disabled = isMobile() ? (current >= pages.length-1) : (current >= pages.length-2);
     }
+
     function next() {
       if (isMobile()) { if (current < pages.length-1) current++; }
       else { if (current < pages.length-2) current += 2; else if (current < pages.length-1) current++; }
       render();
     }
+
     function prev() {
       if (isMobile()) { if (current > 0) current--; }
       else { if (current > 1) current -= 2; else if (current > 0) current = 0; }
       render();
     }
+
     document.getElementById('prev-btn').onclick = prev;
     document.getElementById('next-btn').onclick = next;
+
     window.addEventListener('keydown', function(e) {
       if (isMobile()) return;
       if (e.key === 'ArrowRight' || e.key.toLowerCase() === 'd' || e.key === ' ') next();
       else if (e.key === 'ArrowLeft' || e.key.toLowerCase() === 'a') prev();
     });
+
     window.addEventListener('resize', function() {
       if (isMobile() && current >= pages.length) current = pages.length-1;
       render();
     });
-    // Dark mode (persistent)
-    const darkClass = 'dark-mode';
+
+    // 🌙 DARK/LIGHT/SYSTEM mode
     const toggleBtn = document.getElementById('mode-toggle');
-    const DARK_KEY = 'manga-dark-mode';
-    function setDarkMode(on) {
-      document.body.classList.toggle(darkClass, on);
-      toggleBtn.textContent = on ? '☀️ Light Mode' : '🌙 Dark Mode';
-      localStorage.setItem(DARK_KEY, on ? '1' : '');
-    }
-    setDarkMode(localStorage.getItem(DARK_KEY) === '1');
-    toggleBtn.onclick = function() {
-      const isDark = !document.body.classList.contains(darkClass);
-      setDarkMode(isDark);
+    const DARK_KEY = 'manga-dark-mode-setting';
+    const BUTTON_TEXT = {
+      dark: '🌙 Dark Mode',
+      light: '☀️ Light Mode',
+      system: 'Auto (System Appearance)'
     };
-    // Initialization
+
+    function systemPrefersDark() {
+      return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    }
+    function getUserMode() {
+      return localStorage.getItem(DARK_KEY) || 'system';
+    }
+    function applyMode(mode) {
+      document.body.classList.remove('dark-mode', 'light-mode');
+      if (mode === 'dark') document.body.classList.add('dark-mode');
+      else if (mode === 'light') document.body.classList.add('light-mode');
+      toggleBtn.textContent = BUTTON_TEXT[mode];
+    }
+    function setUserMode(mode) {
+      localStorage.setItem(DARK_KEY, mode);
+      applyMode(mode);
+    }
+    function initMode() { applyMode(getUserMode()); }
+    initMode();
+
+    toggleBtn.onclick = function() {
+      let mode = getUserMode();
+      const darkSystem = systemPrefersDark();
+      if (darkSystem) {
+        if (mode === 'system') setUserMode('light');
+        else if (mode === 'light') setUserMode('dark');
+        else setUserMode('system');
+      } else {
+        if (mode === 'system') setUserMode('dark');
+        else if (mode === 'dark') setUserMode('light');
+        else setUserMode('system');
+      }
+    };
+
+    if (window.matchMedia) {
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+        if (getUserMode() === 'system') applyMode('system');
+      });
+    }
+
+    // Init chapter
     chapterName = getChapterFromURL();
     if (!chapters[chapterName]) {
       document.getElementById('chapter-title').textContent = "Chapter not found!";
