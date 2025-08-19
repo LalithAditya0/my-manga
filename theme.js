@@ -1,3 +1,4 @@
+console.log("✅ theme.js loaded");
 // ==========================
 // Theme Toggle (Light / Dark / Auto)
 // ==========================
