@@ -41,5 +41,7 @@ function setUserMode(mode) {
 
 function initMode() {
   applyMode(getUserMode());
+  console.log("applyMode called with", mode);
+  console.log("toggleBtn is", toggleBtn);
   const toggleBtn = document.getElementById('mode-toggle');
   if (!toggleBtn) retur
