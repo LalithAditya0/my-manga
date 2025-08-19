@@ -10,49 +10,38 @@ body {
   padding: 0;
   transition: background 0.2s, color 0.2s;
 }
+
 /* ==========================
-   AUTO MODE FALLBACK (system preference before JS loads)
+   AUTO MODE FALLBACK
+   (system preference before JS runs)
    ========================== */
 @media (prefers-color-scheme: dark) {
   body {
     background: #181818;
     color: #eaeaea;
   }
-  a {
-    color: #90cdf4;
-  }
-  h1, h2 {
-    color: #f4e06d;
-  }
+  a { color: #90cdf4; }
+  h1, h2 { color: #f4e06d; }
   #mode-toggle {
     background: #232323;
     color: #eaeaea;
     border: 1px solid #444;
   }
-  #mode-toggle:hover {
-    background: #2a2a2a;
-  }
+  #mode-toggle:hover { background: #2a2a2a; }
 }
-
 @media (prefers-color-scheme: light) {
   body {
     background: #fff;
     color: #222;
   }
-  a {
-    color: #2b6cb0;
-  }
-  h1, h2 {
-    color: #222;
-  }
+  a { color: #2b6cb0; }
+  h1, h2 { color: #222; }
   #mode-toggle {
     background: #f8f8f8;
     color: #222;
     border: 1px solid #ddd;
   }
-  #mode-toggle:hover {
-    background: #e8e8e8;
-  }
+  #mode-toggle:hover { background: #e8e8e8; }
 }
 
 /* ==========================
@@ -75,16 +64,9 @@ img {
 /* ==========================
    TYPOGRAPHY
    ========================== */
-h1 {
-  margin-top: 30px;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  margin: 30px 0;
-}
+h1 { margin-top: 30px; }
+ul { list-style-type: none; padding: 0; }
+li { margin: 30px 0; }
 
 /* ==========================
    LINKS
@@ -92,71 +74,4 @@ li {
 a {
   text-decoration: none;
   color: #0074D9;
-  font-size: 1.2em;
-  display: inline-block;
-}
-a:hover {
-  text-decoration: underline;
-}
-
-/* ==========================
-   THEME TOGGLE BUTTON
-   ========================== */
-#mode-toggle {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  padding: 0.5em 1.2em;
-  border-radius: 7px;
-  font-size: 1.03em;
-  cursor: pointer;
-  transition: background 0.2s, color 0.2s, border 0.2s;
-  outline: none;
-  border: none;
-}
-
-/* ==========================
-   DARK MODE
-   ========================== */
-body.dark-mode {
-  background: #181818;
-  color: #eaeaea;
-}
-body.dark-mode a {
-  color: #90cdf4;
-}
-body.dark-mode h1,
-body.dark-mode h2 {
-  color: #f4e06d;
-}
-body.dark-mode #mode-toggle {
-  background: #232323;
-  color: #eaeaea;
-  border: 1px solid #444;
-}
-body.dark-mode #mode-toggle:hover {
-  background: #2a2a2a;
-}
-
-/* ==========================
-   LIGHT MODE
-   ========================== */
-body.light-mode {
-  background: #fff;
-  color: #222;
-}
-body.light-mode a {
-  color: #2b6cb0;
-}
-body.light-mode h1,
-body.light-mode h2 {
-  color: #222;
-}
-body.light-mode #mode-toggle {
-  background: #f8f8f8;
-  color: #222;
-  border: 1px solid #ddd;
-}
-body.light-mode #mode-toggle:hover {
-  background: #e8e8e8;
-}
+  fon
