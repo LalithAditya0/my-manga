@@ -1,10 +1,19 @@
+/* ==========================
+   BASE STYLES
+   ========================== */
 body {
   font-family: Arial, sans-serif;
   background: #f5f5f5;
   color: #222;
   text-align: center;
+  margin: 0;
+  padding: 0;
   transition: background 0.2s, color 0.2s;
 }
+
+/* ==========================
+   IMAGES
+   ========================== */
 img.cover-img {
   width: 360px;
   max-width: 90vw;
@@ -18,6 +27,10 @@ img {
   margin: 10px 0;
   box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 }
+
+/* ==========================
+   TYPOGRAPHY
+   ========================== */
 h1 {
   margin-top: 30px;
 }
@@ -28,6 +41,10 @@ ul {
 li {
   margin: 30px 0;
 }
+
+/* ==========================
+   LINKS
+   ========================== */
 a {
   text-decoration: none;
   color: #0074D9;
@@ -37,39 +54,10 @@ a {
 a:hover {
   text-decoration: underline;
 }
-button#mode-toggle {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  padding: 8px 16px;
-  font-size: 1em;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  background: #ececec;
-  color: #222;
-  transition: background 0.2s, color 0.2s;
-}
-body.dark-mode {
-  background: #181818;
-  color: #eaeaea;
-}
-body.dark-mode a {
-  color: #00bfff;
-}
-body.dark-mode button#mode-toggle {
-  background: #222;
-  color: #eaeaea;
-}
-body.dark-mode {
-  background: #181818;
-  color: #eaeaea;
-}
-body.dark-mode a { color: #90cdf4; }
-body.dark-mode h1, body.dark-mode h2 { color: #f4e06d; }
-/* =====================
+
+/* ==========================
    THEME TOGGLE BUTTON
-   ===================== */
+   ========================== */
 #mode-toggle {
   position: absolute;
   top: 20px;
@@ -78,22 +66,25 @@ body.dark-mode h1, body.dark-mode h2 { color: #f4e06d; }
   border-radius: 7px;
   font-size: 1.03em;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background 0.2s, color 0.2s, border 0.2s;
   outline: none;
   border: none;
 }
 
-/* Light mode button */
-body.light-mode #mode-toggle {
-  background: #f8f8f8;
-  color: #222;
-  border: 1px solid #ddd;
+/* ==========================
+   DARK MODE
+   ========================== */
+body.dark-mode {
+  background: #181818;
+  color: #eaeaea;
 }
-body.light-mode #mode-toggle:hover {
-  background: #e8e8e8;
+body.dark-mode a {
+  color: #90cdf4;
 }
-
-/* Dark mode button */
+body.dark-mode h1,
+body.dark-mode h2 {
+  color: #f4e06d;
+}
 body.dark-mode #mode-toggle {
   background: #232323;
   color: #eaeaea;
@@ -101,4 +92,27 @@ body.dark-mode #mode-toggle {
 }
 body.dark-mode #mode-toggle:hover {
   background: #2a2a2a;
+}
+
+/* ==========================
+   LIGHT MODE
+   ========================== */
+body.light-mode {
+  background: #fff;
+  color: #222;
+}
+body.light-mode a {
+  color: #2b6cb0;
+}
+body.light-mode h1,
+body.light-mode h2 {
+  color: #222;
+}
+body.light-mode #mode-toggle {
+  background: #f8f8f8;
+  color: #222;
+  border: 1px solid #ddd;
+}
+body.light-mode #mode-toggle:hover {
+  background: #e8e8e8;
 }
