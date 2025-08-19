@@ -1,103 +1,38 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Shattered Horizons - Manga Viewer</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Viewer - Shattered Horizons</title>
   <link rel="stylesheet" href="../style.css">
 </head>
 <body>
   <button id="mode-toggle"></button>
-  <h2 id="chapter-title"></h2>
-  <div id="pages" class="pages"></div>
-  <div>
-    <button class="nav-btn" id="prev-btn">&larr; Prev</button>
-    <button class="nav-btn" id="next-btn">Next &rarr;</button>
-  </div>
-  <p><a href="index.html">← Back to Shattered Horizons</a></p>
+
+  <h1 id="chapter-title">Loading...</h1>
+  <div id="pages"></div>
 
   <script>
-    const chapters = {
-      chapter1: { title: "Chapter 1", pageCount: 3 },
-      chapter2: { title: "Chapter 2", pageCount: 3 }
-    };
+    // Simple viewer: load chapter images based on ?chapter=#
+    const urlParams = new URLSearchParams(window.location.search);
+    const chapter = urlParams.get('chapter') || "1";
 
-    function getChapterFromURL() {
-      const params = new URLSearchParams(window.location.search);
-      return params.get('chapter');
-    }
+    const pagesDiv = document.getElementById("pages");
+    const title = document.getElementById("chapter-title");
+    title.textContent = "Chapter " + chapter;
 
-    function isMobile() { return window.innerWidth <= 700; }
-    let current = 0, pages = [], chapterName = "";
-
-    function getPagesArray(chapter, pageCount) {
-      return Array.from({ length: pageCount }, (_, i) => `manga/${chapter}/page${i+1}.png`);
-    }
-
-    function render() {
-      const container = document.getElementById('pages');
-      container.innerHTML = '';
-      document.getElementById('chapter-title').textContent = chapters[chapterName]?.title || "Unknown Chapter";
-
-      if (isMobile()) {
-        if (pages[current]) {
-          const img = document.createElement('img');
-          img.src = pages[current];
-          img.alt = `Page ${current+1}`;
-          img.className = "page-img";
-          container.appendChild(img);
-        }
-      } else {
-        for (let i = 0; i < 2; i++) {
-          const idx = current + i;
-          if (pages[idx]) {
-            const img = document.createElement('img');
-            img.src = pages[idx];
-            img.alt = `Page ${idx+1}`;
-            img.className = "page-img";
-            container.appendChild(img);
-          }
-        }
-      }
-
-      document.getElementById('prev-btn').disabled = current === 0;
-      document.getElementById('next-btn').disabled = isMobile() ? (current >= pages.length-1) : (current >= pages.length-2);
-    }
-
-    function next() {
-      if (isMobile()) { if (current < pages.length-1) current++; }
-      else { if (current < pages.length-2) current += 2; else if (current < pages.length-1) current++; }
-      render();
-    }
-
-    function prev() {
-      if (isMobile()) { if (current > 0) current--; }
-      else { if (current > 1) current -= 2; else if (current > 0) current = 0; }
-      render();
-    }
-
-    document.getElementById('prev-btn').onclick = prev;
-    document.getElementById('next-btn').onclick = next;
-
-    window.addEventListener('keydown', function(e) {
-      if (isMobile()) return;
-      if (e.key === 'ArrowRight' || e.key.toLowerCase() === 'd' || e.key === ' ') next();
-      else if (e.key === 'ArrowLeft' || e.key.toLowerCase() === 'a') prev();
-    });
-
-    window.addEventListener('resize', () => { if (isMobile() && current >= pages.length) current = pages.length-1; render(); });
-
-    // Init chapter
-    chapterName = getChapterFromURL();
-    if (!chapters[chapterName]) {
-      document.getElementById('chapter-title').textContent = "Chapter not found!";
-      document.getElementById('pages').textContent = "Invalid chapter parameter.";
-      document.getElementById('prev-btn').style.display = "none";
-      document.getElementById('next-btn').style.display = "none";
-    } else {
-      pages = getPagesArray(chapterName, chapters[chapterName].pageCount);
-      render();
+    let page = 1;
+    while (true) {
+      const img = new Image();
+      img.src = `manga/chapter${chapter}/page${page}.png`;
+      img.onload = () => pagesDiv.appendChild(img);
+      img.onerror = () => {};
+      if (page > 50) break; // safety cutoff
+      page++;
     }
   </script>
 
+  <!-- Correct path: go up one level -->
   <script src="../theme.js"></script>
 </body>
 </html>
