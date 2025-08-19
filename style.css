@@ -10,6 +10,50 @@ body {
   padding: 0;
   transition: background 0.2s, color 0.2s;
 }
+/* ==========================
+   AUTO MODE FALLBACK (system preference before JS loads)
+   ========================== */
+@media (prefers-color-scheme: dark) {
+  body {
+    background: #181818;
+    color: #eaeaea;
+  }
+  a {
+    color: #90cdf4;
+  }
+  h1, h2 {
+    color: #f4e06d;
+  }
+  #mode-toggle {
+    background: #232323;
+    color: #eaeaea;
+    border: 1px solid #444;
+  }
+  #mode-toggle:hover {
+    background: #2a2a2a;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  body {
+    background: #fff;
+    color: #222;
+  }
+  a {
+    color: #2b6cb0;
+  }
+  h1, h2 {
+    color: #222;
+  }
+  #mode-toggle {
+    background: #f8f8f8;
+    color: #222;
+    border: 1px solid #ddd;
+  }
+  #mode-toggle:hover {
+    background: #e8e8e8;
+  }
+}
 
 /* ==========================
    IMAGES
