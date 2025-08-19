@@ -4,24 +4,162 @@
   <title>Manga Library</title>
   <link rel="stylesheet" href="style.css">
   <style>
-    /* ... main page and manga list styles ... */
+    body {
+      margin: 0;
+      padding: 0;
+    }
+    .main-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 40px;
+    }
+    .manga-list {
+      display: flex;
+      gap: 48px;
+      justify-content: center;
+      margin-top: 40px;
+      flex-wrap: wrap;
+    }
+    .manga-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      font-size: 1.2em;
+    }
+    .cover-thumb {
+      width: 300px;
+      max-width: 92vw;
+      border-radius: 12px;
+      box-shadow: 0 2px 16px #2222;
+      background: #fff;
+      transition: 
+        transform 0.35s cubic-bezier(.33,1,.68,1), 
+        box-shadow 0.35s cubic-bezier(.33,1,.68,1);
+      cursor: pointer;
+      margin-bottom: 16px;
+    }
+    .cover-thumb:hover {
+      transform: scale(1.08);
+      box-shadow: 0 12px 36px #2227;
+      z-index: 2;
+      background: #fdf6e3;
+    }
+    .manga-title {
+      margin-top: 0;
+      font-weight: bold;
+      font-size: 1.1em;
+      letter-spacing: 0.5px;
+    }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+    @media (max-width: 600px) {
+      .cover-thumb {
+        width: 96vw;
+        max-width: 96vw;
+      }
+      .manga-list {
+        gap: 24px;
+      }
+    }
 
+    /* System dark mode (prefers-color-scheme) */
     @media (prefers-color-scheme: dark) {
-      body:not(.dark-mode):not(.light-mode) { background: #181818; color: #eaeaea; }
-      body:not(.dark-mode):not(.light-mode) #mode-toggle { background: #232323; color: #eaeaea; border: 1px solid #444; }
-      body:not(.dark-mode):not(.light-mode) #mode-toggle:hover { background: #2a2a2a; }
+      body:not(.dark-mode):not(.light-mode) {
+        background: #181818;
+        color: #eaeaea;
+      }
+      body:not(.dark-mode):not(.light-mode) a { color: #90cdf4; }
+      body:not(.dark-mode):not(.light-mode) h1, 
+      body:not(.dark-mode):not(.light-mode) h2 { color: #f4e06d; }
+      body:not(.dark-mode):not(.light-mode) .cover-thumb {
+        background: #222;
+        box-shadow: 0 2px 16px #0008;
+      }
+      body:not(.dark-mode):not(.light-mode) .cover-thumb:hover {
+        background: #333;
+      }
+      body:not(.dark-mode):not(.light-mode) #mode-toggle {
+        background: #232323;
+        color: #eaeaea;
+        border: 1px solid #444;
+      }
+      body:not(.dark-mode):not(.light-mode) #mode-toggle:hover {
+        background: #2a2a2a;
+      }
     }
     @media (prefers-color-scheme: light) {
-      body:not(.dark-mode):not(.light-mode) { background: #fff; color: #222; }
-      body:not(.dark-mode):not(.light-mode) #mode-toggle { background: #f8f8f8; color: #222; border: 1px solid #ddd; }
-      body:not(.dark-mode):not(.light-mode) #mode-toggle:hover { background: #e8e8e8; }
+      body:not(.dark-mode):not(.light-mode) {
+        background: #fff;
+        color: #222;
+      }
+      body:not(.dark-mode):not(.light-mode) a { color: #2b6cb0; }
+      body:not(.dark-mode):not(.light-mode) h1, 
+      body:not(.dark-mode):not(.light-mode) h2 { color: #222; }
+      body:not(.dark-mode):not(.light-mode) .cover-thumb {
+        background: #fff;
+        box-shadow: 0 2px 16px #2222;
+      }
+      body:not(.dark-mode):not(.light-mode) .cover-thumb:hover {
+        background: #fdf6e3;
+      }
+      body:not(.dark-mode):not(.light-mode) #mode-toggle {
+        background: #f8f8f8;
+        color: #222;
+        border: 1px solid #ddd;
+      }
+      body:not(.dark-mode):not(.light-mode) #mode-toggle:hover {
+        background: #e8e8e8;
+      }
     }
-    body.dark-mode { background: #181818 !important; color: #eaeaea !important; }
-    body.dark-mode #mode-toggle { background: #232323 !important; color: #eaeaea !important; border: 1px solid #444 !important; }
-    body.dark-mode #mode-toggle:hover { background: #2a2a2a !important; }
-    body.light-mode { background: #fff !important; color: #222 !important; }
-    body.light-mode #mode-toggle { background: #f8f8f8 !important; color: #222 !important; border: 1px solid #ddd !important; }
-    body.light-mode #mode-toggle:hover { background: #e8e8e8 !important; }
+    /* Manual dark mode override */
+    body.dark-mode {
+      background: #181818 !important;
+      color: #eaeaea !important;
+    }
+    body.dark-mode a { color: #90cdf4 !important; }
+    body.dark-mode h1, body.dark-mode h2 { color: #f4e06d !important; }
+    body.dark-mode .cover-thumb {
+      background: #222 !important;
+      box-shadow: 0 2px 16px #0008 !important;
+    }
+    body.dark-mode .cover-thumb:hover {
+      background: #333 !important;
+    }
+    body.dark-mode #mode-toggle {
+      background: #232323 !important;
+      color: #eaeaea !important;
+      border: 1px solid #444 !important;
+    }
+    body.dark-mode #mode-toggle:hover {
+      background: #2a2a2a !important;
+    }
+    /* Manual light mode override */
+    body.light-mode {
+      background: #fff !important;
+      color: #222 !important;
+    }
+    body.light-mode a { color: #2b6cb0 !important; }
+    body.light-mode h1, body.light-mode h2 { color: #222 !important; }
+    body.light-mode .cover-thumb {
+      background: #fff !important;
+      box-shadow: 0 2px 16px #2222 !important;
+    }
+    body.light-mode .cover-thumb:hover {
+      background: #fdf6e3 !important;
+    }
+    body.light-mode #mode-toggle {
+      background: #f8f8f8 !important;
+      color: #222 !important;
+      border: 1px solid #ddd !important;
+    }
+    body.light-mode #mode-toggle:hover {
+      background: #e8e8e8 !important;
+    }
+    /* Button styling */
     #mode-toggle {
       padding: 0.5em 1.2em;
       border-radius: 7px;
@@ -31,7 +169,6 @@
       transition: background 0.2s;
       outline: none;
     }
-    /* ... rest of your previous styles ... */
   </style>
 </head>
 <body>
@@ -49,6 +186,7 @@
     </div>
   </div>
   <script>
+    // Universal DARK/LIGHT/SYSTEM mode logic for all pages
     const toggleBtn = document.getElementById('mode-toggle');
     const DARK_KEY = 'manga-dark-mode-setting';
     const MODES = ['dark', 'light', 'system'];
@@ -57,10 +195,6 @@
       light: '☀️ Light Mode',
       system: 'Auto (System Appearance)'
     };
-
-    function systemPrefersDark() {
-      return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    }
 
     function getUserMode() {
       return localStorage.getItem(DARK_KEY) || 'system';
@@ -73,29 +207,22 @@
       } else if (mode === 'light') {
         document.body.classList.add('light-mode');
       }
+      // No class if 'system': CSS handles it
       toggleBtn.textContent = BUTTON_TEXT[mode];
     }
 
-    function setUserMode(mode) {
-      localStorage.setItem(DARK_KEY, mode);
-      applyMode(mode);
-    }
-
     function initMode() {
-      applyMode(getUserMode());
+      const mode = getUserMode();
+      applyMode(mode);
     }
     initMode();
 
     toggleBtn.onclick = function() {
       let mode = getUserMode();
-      if (mode === 'system') {
-        // Jump to the opposite of the system mode
-        setUserMode(systemPrefersDark() ? 'light' : 'dark');
-      } else {
-        // Cycle: dark -> light -> system -> dark ...
-        let nextIndex = (MODES.indexOf(mode) + 1) % MODES.length;
-        setUserMode(MODES[nextIndex]);
-      }
+      let nextIndex = (MODES.indexOf(mode) + 1) % MODES.length;
+      let nextMode = MODES[nextIndex];
+      localStorage.setItem(DARK_KEY, nextMode);
+      applyMode(nextMode);
     };
 
     // If "system", respond to system changes live
@@ -108,5 +235,4 @@
     }
   </script>
 </body>
-</html>
 </html>
