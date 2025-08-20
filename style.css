@@ -165,7 +165,7 @@ body.light-mode #mode-toggle:hover { background: #e8e8e8; }
   border-radius: 6px;
   font-size: 0.9em;
    text-align: center;
-  min-width: 80px;
+  min-width: 100px;
   transition: background 0.2s, color 0.2s;
 }
 
