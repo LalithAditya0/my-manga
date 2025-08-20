@@ -168,3 +168,10 @@ body.light-mode #mode-toggle:hover { background: #e8e8e8; }
 .nav-btn:hover {
   background: var(--button-hover-bg, #bbb);
 }
+
+.nav-bar {
+  display: flex;
+  gap: 10px;
+  margin: 15px 0;
+  justify-content: center; /* center buttons */
+}
