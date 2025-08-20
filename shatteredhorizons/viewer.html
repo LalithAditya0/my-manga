@@ -8,49 +8,98 @@
 </head>
 <body>
   <h1 id="chapter-title">Loading...</h1>
-  <div id="pages"></div>
+  <div id="page-container"></div>
 
-  <!-- Nav at the BOTTOM -->
+  <!-- Nav at the bottom -->
   <nav class="nav-bar bottom-nav">
     <a href="../index.html" class="nav-btn">🏠 Home</a>
     <a href="index.html" class="nav-btn">📖 Chapters</a>
-    <a id="prev-chapter" class="nav-btn">⬅ Prev</a>
-    <a id="next-chapter" class="nav-btn">Next ➡</a>
+    <a id="prev-btn" class="nav-btn">⬅ Prev</a>
+    <a id="next-btn" class="nav-btn">Next ➡</a>
     <button id="mode-toggle"></button>
   </nav>
 
   <script>
     const urlParams = new URLSearchParams(window.location.search);
-    const chapter = parseInt(urlParams.get('chapter') || "1", 10);
+    let chapter = parseInt(urlParams.get('chapter') || "1", 10);
+    let page = parseInt(urlParams.get('page') || "1", 10);
 
-    const pagesDiv = document.getElementById("pages");
+    const pageContainer = document.getElementById("page-container");
     const title = document.getElementById("chapter-title");
-    title.textContent = "Chapter " + chapter;
 
-    // ✅ Sequential page loading
-    function loadPage(num) {
+    function loadPage(ch, pg) {
+      pageContainer.innerHTML = ""; // clear old page
+      title.textContent = `Chapter ${ch} - Page ${pg}`;
+
       const img = new Image();
-      img.src = `manga/chapter${chapter}/page${num}.png`;
-      img.alt = `Page ${num}`;
-
-      img.onload = () => {
-        pagesDiv.appendChild(img);
-        loadPage(num + 1);
+      img.src = `manga/chapter${ch}/page${pg}.png`;
+      img.alt = `Page ${pg}`;
+      img.onload = () => pageContainer.appendChild(img);
+      img.onerror = () => {
+        // If page not found, assume last page reached
+        if (pg > 1) {
+          page = pg - 1; // last valid page
+        } else {
+          pageContainer.textContent = "No pages found.";
+        }
       };
-      img.onerror = () => {}; // stop when no more pages
     }
-    loadPage(1);
 
-    // ✅ Navigation setup
-    const nextBtn = document.getElementById("next-chapter");
-    const prevBtn = document.getElementById("prev-chapter");
+    // Buttons
+    const prevBtn = document.getElementById("prev-btn");
+    const nextBtn = document.getElementById("next-btn");
 
-    nextBtn.href = `viewer.html?chapter=${chapter + 1}`;
-    if (chapter > 1) {
-      prevBtn.href = `viewer.html?chapter=${chapter - 1}`;
-    } else {
-      prevBtn.style.display = "none"; // hide on ch.1
+    function updateNav() {
+      prevBtn.onclick = () => {
+        if (page > 1) {
+          page--;
+          loadPage(chapter, page);
+        } else if (chapter > 1) {
+          // go to last page of previous chapter
+          chapter--;
+          findLastPage(chapter, (lastPage) => {
+            page = lastPage;
+            loadPage(chapter, page);
+          });
+        }
+      };
+
+      nextBtn.onclick = () => {
+        const testImg = new Image();
+        testImg.src = `manga/chapter${chapter}/page${page + 1}.png`;
+        testImg.onload = () => {
+          page++;
+          loadPage(chapter, page);
+        };
+        testImg.onerror = () => {
+          // no next page, move to next chapter
+          chapter++;
+          page = 1;
+          loadPage(chapter, page);
+        };
+      };
     }
+
+    // Find the last page of a chapter by checking until fail
+    function findLastPage(ch, callback) {
+      let testPage = 1;
+      function check() {
+        const img = new Image();
+        img.src = `manga/chapter${ch}/page${testPage}.png`;
+        img.onload = () => {
+          testPage++;
+          check();
+        };
+        img.onerror = () => {
+          callback(testPage - 1);
+        };
+      }
+      check();
+    }
+
+    // Initialize
+    loadPage(chapter, page);
+    updateNav();
   </script>
 
   <script src="../theme.js"></script>
