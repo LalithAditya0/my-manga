@@ -7,7 +7,10 @@
   <link rel="stylesheet" href="../style.css">
 </head>
 <body>
-  <!-- Navigation bar -->
+  <h1 id="chapter-title">Loading...</h1>
+  <div id="pages"></div>
+
+  <!-- Navigation bar at the BOTTOM -->
   <nav class="nav-bar">
     <a href="../index.html" class="nav-btn">🏠 Home</a>
     <a href="index.html" class="nav-btn">📖 Chapters</a>
@@ -15,9 +18,6 @@
     <a id="next-chapter" class="nav-btn">Next ➡</a>
     <button id="mode-toggle"></button>
   </nav>
-
-  <h1 id="chapter-title">Loading...</h1>
-  <div id="pages"></div>
 
   <script>
     const urlParams = new URLSearchParams(window.location.search);
@@ -27,8 +27,7 @@
     const title = document.getElementById("chapter-title");
     title.textContent = "Chapter " + chapter;
 
-    // ✅ Load images in correct order
-    let page = 1;
+    // ✅ Sequential page loading
     function loadPage(num) {
       const img = new Image();
       img.src = `manga/chapter${chapter}/page${num}.png`;
@@ -36,13 +35,13 @@
 
       img.onload = () => {
         pagesDiv.appendChild(img);
-        loadPage(num + 1); // load next only if this exists
+        loadPage(num + 1); // load next only if current exists
       };
-      img.onerror = () => {}; // stop when page doesn't exist
+      img.onerror = () => {}; // stop if not found
     }
     loadPage(1);
 
-    // ✅ Setup navigation
+    // ✅ Navigation setup
     const nextBtn = document.getElementById("next-chapter");
     const prevBtn = document.getElementById("prev-chapter");
 
@@ -50,11 +49,10 @@
     if (chapter > 1) {
       prevBtn.href = `viewer.html?chapter=${chapter - 1}`;
     } else {
-      prevBtn.style.display = "none"; // hide on chapter 1
+      prevBtn.style.display = "none"; // hide on ch.1
     }
   </script>
 
-  <!-- Theme toggle -->
   <script src="../theme.js"></script>
 </body>
 </html>
