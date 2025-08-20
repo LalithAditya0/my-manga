@@ -10,8 +10,8 @@
   <h1 id="chapter-title">Loading...</h1>
   <div id="pages"></div>
 
-  <!-- Navigation bar at the BOTTOM -->
-  <nav class="nav-bar">
+  <!-- Nav at the BOTTOM -->
+  <nav class="nav-bar bottom-nav">
     <a href="../index.html" class="nav-btn">🏠 Home</a>
     <a href="index.html" class="nav-btn">📖 Chapters</a>
     <a id="prev-chapter" class="nav-btn">⬅ Prev</a>
@@ -35,9 +35,9 @@
 
       img.onload = () => {
         pagesDiv.appendChild(img);
-        loadPage(num + 1); // load next only if current exists
+        loadPage(num + 1);
       };
-      img.onerror = () => {}; // stop if not found
+      img.onerror = () => {}; // stop when no more pages
     }
     loadPage(1);
 
