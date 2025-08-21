@@ -21,7 +21,7 @@ h1, h2 {
   display: flex;
   gap: 10px;
   margin: 15px 0;
-  justify-content: center; /* center everything */
+  justify-content: center;
   align-items: center;
 }
 
@@ -36,10 +36,10 @@ h1, h2 {
   transition: background 0.2s, color 0.2s;
 }
 
-/* Equal width ONLY for <a> links */
+/* 🔥 Force all <a> nav buttons to same width */
 .nav-bar a.nav-btn {
   display: inline-block;
-  min-width: 90px;   /* tweak size if you want wider buttons */
+  width: 100px;   /* all nav links equal size */
   text-align: center;
 }
 
@@ -47,7 +47,7 @@ h1, h2 {
   background: var(--button-hover-bg, #bbb);
 }
 
-/* Mode toggle button */
+/* Mode toggle button (keeps natural size at far right) */
 #mode-toggle {
   cursor: pointer;
   padding: 0.4em 0.8em;
