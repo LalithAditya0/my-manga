@@ -1,162 +1,31 @@
-/* ==========================
-   BASE STYLES
-   ========================== */
+/* === GENERAL PAGE STYLES === */
 body {
-  font-family: Arial, sans-serif;
-  background: #f5f5f5;
-  color: #222;
-  text-align: center;
   margin: 0;
-  padding: 0;
-  transition: background 0.2s, color 0.2s;
+  font-family: sans-serif;
+  background: var(--bg-color, #fff);
+  color: var(--text-color, #000);
 }
 
-/* ==========================
-   AUTO MODE FALLBACK
-   (system preference before JS runs)
-   ========================== */
-@media (prefers-color-scheme: dark) {
-  body {
-    background: #181818;
-    color: #eaeaea;
-  }
-  a { color: #90cdf4; }
-  h1, h2 { color: #f4e06d; }
-  #mode-toggle {
-    background: #232323;
-    color: #eaeaea;
-    border: 1px solid #444;
-  }
-  #mode-toggle:hover { background: #2a2a2a; }
+h1, h2 {
+  text-align: center;
 }
 
-@media (prefers-color-scheme: light) {
-  body {
-    background: #fff;
-    color: #222;
-  }
-  a { color: #2b6cb0; }
-  h1, h2 { color: #222; }
-  #mode-toggle {
-    background: #f8f8f8;
-    color: #222;
-    border: 1px solid #ddd;
-  }
-  #mode-toggle:hover { background: #e8e8e8; }
-}
-
-/* ==========================
-   IMAGES
-   ========================== */
-img.cover-img {
-  width: 360px;
-  max-width: 90vw;
+.cover-img {
   display: block;
-  margin: 0 auto 10px auto;
-  border-radius: 5px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  margin: 0 auto;
+  max-width: 300px;
 }
 
-img {
-  max-width: 80vw;
-  margin: 10px 0;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-}
-
-/* ==========================
-   TYPOGRAPHY
-   ========================== */
-h1 { margin-top: 30px; }
-ul { list-style-type: none; padding: 0; }
-li { margin: 30px 0; }
-
-/* ==========================
-   LINKS
-   ========================== */
-a {
-  text-decoration: none;
-  color: #0074D9;
-  font-size: 1.2em;
-  display: inline-block;
-}
-a:hover { text-decoration: underline; }
-
-/* ==========================
-   THEME TOGGLE BUTTON
-   ========================== */
-#mode-toggle {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  padding: 0.6em 1.4em;
-  border-radius: 8px;
-  font-size: 1.03em;
-  cursor: pointer;
-  transition: background 0.2s, color 0.2s, border 0.2s, box-shadow 0.2s;
-  outline: none;
-  border: none;
-  min-width: 120px;
-  min-height: 38px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-}
-
-#mode-toggle:hover {
-  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-  transform: translateY(-1px);
-}
-
-/* Default fallback text (shows until JS updates it) */
-#mode-toggle::after {
-  content: "☯ Mode";
-  font-size: 0.95em;
-  opacity: 0.85;
-}
-
-/* Once JS sets real text, hide fallback */
-#mode-toggle:not(:empty)::after {
-  content: "";
-}
-
-/* ==========================
-   DARK MODE
-   ========================== */
-body.dark-mode {
-  background: #181818;
-  color: #eaeaea;
-}
-body.dark-mode a { color: #90cdf4; }
-body.dark-mode h1, body.dark-mode h2 { color: #f4e06d; }
-body.dark-mode #mode-toggle {
-  background: #232323;
-  color: #eaeaea;
-  border: 1px solid #444;
-}
-body.dark-mode #mode-toggle:hover { background: #2a2a2a; }
-
-/* ==========================
-   LIGHT MODE
-   ========================== */
-body.light-mode {
-  background: #fff;
-  color: #222;
-}
-body.light-mode a { color: #2b6cb0; }
-body.light-mode h1, body.light-mode h2 { color: #222; }
-body.light-mode #mode-toggle {
-  background: #f8f8f8;
-  color: #222;
-  border: 1px solid #ddd;
-}
-body.light-mode #mode-toggle:hover { background: #e8e8e8; }
-
+/* === NAVIGATION BAR === */
 .nav-bar {
   display: flex;
   gap: 10px;
   margin: 15px 0;
-  justify-content: center;
+  justify-content: center; /* center everything */
   align-items: center;
 }
 
+/* Base nav button style */
 .nav-btn {
   padding: 0.4em 0.8em;
   background: var(--button-bg, #ddd);
@@ -164,22 +33,87 @@ body.light-mode #mode-toggle:hover { background: #e8e8e8; }
   text-decoration: none;
   border-radius: 6px;
   font-size: 0.9em;
-   text-align: center;
-  min-width: 100px;
   transition: background 0.2s, color 0.2s;
+}
+
+/* Equal width ONLY for <a> links */
+.nav-bar a.nav-btn {
+  display: inline-block;
+  min-width: 90px;   /* tweak size if you want wider buttons */
+  text-align: center;
 }
 
 .nav-btn:hover {
   background: var(--button-hover-bg, #bbb);
 }
 
-/* Specific spacing for cover-page nav */
+/* Mode toggle button */
+#mode-toggle {
+  cursor: pointer;
+  padding: 0.4em 0.8em;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9em;
+  background: var(--button-bg, #ddd);
+  color: var(--text-color, #000);
+  transition: background 0.2s, color 0.2s;
+}
+#mode-toggle:hover {
+  background: var(--button-hover-bg, #bbb);
+}
+
+/* === POSITION HELPERS === */
 .cover-nav {
   margin-top: 10px;
   margin-bottom: 20px;
 }
 
-/* Extra spacing at bottom of viewer */
 .bottom-nav {
   margin-top: 30px;
+}
+
+/* === DARK MODE === */
+body.dark-mode {
+  --bg-color: #121212;
+  --text-color: #f1f1f1;
+  --button-bg: #333;
+  --button-hover-bg: #555;
+}
+
+/* === LIGHT MODE === */
+body.light-mode {
+  --bg-color: #ffffff;
+  --text-color: #000000;
+  --button-bg: #ddd;
+  --button-hover-bg: #bbb;
+}
+
+/* === SYSTEM MODE (default) === */
+body {
+  --bg-color: #ffffff;
+  --text-color: #000000;
+  --button-bg: #ddd;
+  --button-hover-bg: #bbb;
+}
+@media (prefers-color-scheme: dark) {
+  body {
+    --bg-color: #121212;
+    --text-color: #f1f1f1;
+    --button-bg: #333;
+    --button-hover-bg: #555;
+  }
+}
+
+/* === PAGE VIEWER === */
+#page-container {
+  display: flex;
+  justify-content: center;
+  margin: 20px;
+}
+
+#page-container img {
+  max-width: 90%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
 }
