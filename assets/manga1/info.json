@@ -1,0 +1,10 @@
+{
+  "title": "Shattered Horizons",
+  "author": "CHATGPT",
+  "description": "A ruined world. A lone fighter. Shadows of war rise again. In the fractured remains of a once-thriving city, survival means facing enemies both seen and unseen. Shattered Horizon is a tale of grit, vengeance, and the thin line between justice and corruption.",
+  "cover": "cover.png",
+  "chapters": [
+    { "id": "ch1", "title": "Echoes of the Ruined City", "thumb": "ch1/thumb.png" },
+    { "id": "ch2", "title": "not yet", "thumb": "ch2/thumb.png" }
+  ]
+}
