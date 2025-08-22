@@ -1,11 +1,11 @@
 :root {
-  --bg: #0b0b0e;
-  --fg: #eceef3;
-  --muted: #9aa3b2;
-  --card: #13141a;
-  --accent: #6ea8fe;
-  --btn: #1d2230;
-  --shadow: 0 10px 30px rgba(0,0,0,.35);
+--bg: #0b0b0e;
+--fg: #eceef3;
+--muted: #9aa3b2;
+--card: #13141a;
+--accent: #6ea8fe;
+--btn: #1d2230;
+--shadow: 0 10px 30px rgba(0,0,0,.35);
 }
 
 html[data-theme="light"] {
