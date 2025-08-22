@@ -115,3 +115,51 @@ function renderViewer(mangaId, chapterId) {
 
   updatePage();
 }
+// Load chapters when inside chapters.html
+async function loadChapters() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const mangaFolder = urlParams.get("manga"); // e.g. "manga1"
+
+  if (!mangaFolder) {
+    document.body.innerHTML = "<p>Error: No manga selected.</p>";
+    return;
+  }
+
+  try {
+    const response = await fetch(`assets/${mangaFolder}/info.json`);
+    const data = await response.json();
+
+    // Fill header
+    document.getElementById("manga-title").textContent = data.title;
+    document.getElementById("manga-author").textContent = `Author: ${data.author}`;
+    document.getElementById("manga-description").textContent = data.description;
+
+    // List chapters
+    const chaptersList = document.getElementById("chapters-list");
+    data.chapters.forEach(ch => {
+      const chapterCard = document.createElement("div");
+      chapterCard.classList.add("chapter-card");
+
+      chapterCard.innerHTML = `
+        <img src="assets/${mangaFolder}/${ch.thumb}" alt="${ch.title}">
+        <h3>${ch.title}</h3>
+        <button onclick="openViewer('${mangaFolder}', '${ch.id}')">Read</button>
+      `;
+
+      chaptersList.appendChild(chapterCard);
+    });
+
+  } catch (error) {
+    console.error("Error loading chapters:", error);
+  }
+}
+
+// Open a chapter in viewer
+function openViewer(mangaFolder, chapterId) {
+  window.location.href = `viewer.html?manga=${mangaFolder}&chapter=${chapterId}`;
+}
+
+// Auto-run if on chapters.html
+if (window.location.pathname.endsWith("chapters.html")) {
+  document.addEventListener("DOMContentLoaded", loadChapters);
+}
