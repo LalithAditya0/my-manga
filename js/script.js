@@ -163,3 +163,68 @@ function openViewer(mangaFolder, chapterId) {
 if (window.location.pathname.endsWith("chapters.html")) {
   document.addEventListener("DOMContentLoaded", loadChapters);
 }
+// Load chapter pages when inside viewer.html
+async function loadViewer() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const mangaFolder = urlParams.get("manga");
+  const chapterId = urlParams.get("chapter");
+
+  if (!mangaFolder || !chapterId) {
+    document.body.innerHTML = "<p>Error: Missing manga or chapter info.</p>";
+    return;
+  }
+
+  try {
+    const response = await fetch(`assets/${mangaFolder}/info.json`);
+    const data = await response.json();
+
+    const mangaTitle = data.title;
+    document.getElementById("viewer-title").textContent = `${mangaTitle} - ${chapterId}`;
+    document.getElementById("back-to-chapters").href = `chapters.html?manga=${mangaFolder}`;
+
+    const chapter = data.chapters.find(ch => ch.id === chapterId);
+    if (!chapter) {
+      document.body.innerHTML = "<p>Error: Chapter not found.</p>";
+      return;
+    }
+
+    const totalPages = chapter.pages;
+    let currentPage = 1;
+
+    const pageContainer = document.getElementById("page-container");
+    const pageIndicator = document.getElementById("page-indicator");
+
+    function renderPage() {
+      pageContainer.innerHTML = `
+        <img src="assets/${mangaFolder}/${chapterId}/${currentPage}.png" alt="Page ${currentPage}" class="manga-page">
+      `;
+      pageIndicator.textContent = `Page ${currentPage} / ${totalPages}`;
+    }
+
+    // Controls
+    document.getElementById("prev-btn").addEventListener("click", () => {
+      if (currentPage > 1) {
+        currentPage--;
+        renderPage();
+      }
+    });
+
+    document.getElementById("next-btn").addEventListener("click", () => {
+      if (currentPage < totalPages) {
+        currentPage++;
+        renderPage();
+      }
+    });
+
+    // Load first page
+    renderPage();
+
+  } catch (error) {
+    console.error("Error loading viewer:", error);
+  }
+}
+
+// Auto-run if on viewer.html
+if (window.location.pathname.endsWith("viewer.html")) {
+  document.addEventListener("DOMContentLoaded", loadViewer);
+}
