@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Manga Chapters</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="assets/icons/favicon.ico" />
+</head>
+<body>
+  <header>
+    <h1 id="manga-title">Chapters</h1>
+    <a href="index.html">⬅ Back to Library</a>
+  </header>
+
+  <main id="chapter-list" class="grid"></main>
+
+  <script src="js/script.js"></script>
+  <script>
+    const mangaId = new URLSearchParams(window.location.search).get("manga");
+    renderChapterList(mangaId);
+  </script>
+</body>
+</html>
