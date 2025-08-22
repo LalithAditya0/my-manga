@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Manga Viewer</title>
+<link rel="stylesheet" href="css/style.css" />
+<meta name="theme-color" content="#0b0b0e" />
+</head>
+<body>
+<header class="site-header">
+<a href="index.html" class="back-link" aria-label="Back to library">← Library</a>
+<h1 id="viewerTitle" class="logo">Manga Viewer</h1>
+<button id="modeToggle" class="mode-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">🌗</button>
+</header>
+
+
+<main class="viewer">
+<div class="canvas" id="canvas" tabindex="0" aria-live="polite">
+<img id="pageImg" class="page" alt="Manga page" />
+</div>
+
+
+<nav class="controls" aria-label="Page navigation">
+<div class="row">
+<button id="prevBtn" class="btn" aria-keyshortcuts="ArrowLeft">Prev Page</button>
+<div class="counter" id="pageCounter">Page 1 of 1</div>
+<button id="nextBtn" class="btn" aria-keyshortcuts="ArrowRight">Next Page</button>
+</div>
+<div class="row alt-nav" id="altNav" hidden>
+<a id="prevChapter" class="btn ghost" href="#">👈 Prev Chapter</a>
+<a id="nextChapter" class="btn ghost" href="#">Next Chapter 👉</a>
+</div>
+</nav>
+</main>
+
+
+<footer class="footer">
+<div class="tips">Hint: Use ← → keys or tap sides. Long-press for quick zoom.</div>
+</footer>
+
+
+<script src="js/script.js"></script>
+<script>
+App.initViewer();
+</script>
+</body>
+</html>
