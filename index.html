@@ -1,72 +1,41 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Manga Library</title>
-  <link rel="stylesheet" href="style.css">
-  <style>
-    .main-content {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-top: 40px;
-    }
-    .manga-list {
-      display: flex;
-      gap: 48px;
-      justify-content: center;
-      margin-top: 40px;
-      flex-wrap: wrap;
-    }
-    .manga-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      font-size: 1.2em;
-    }
-    .cover-thumb {
-      width: 300px;
-      max-width: 92vw;
-      border-radius: 12px;
-      box-shadow: 0 2px 16px #2222;
-      background: #fff;
-      transition: transform 0.35s cubic-bezier(.33,1,.68,1), box-shadow 0.35s cubic-bezier(.33,1,.68,1);
-      cursor: pointer;
-      margin-bottom: 16px;
-    }
-    .cover-thumb:hover {
-      transform: scale(1.08);
-      box-shadow: 0 12px 36px #2227;
-      z-index: 2;
-      background: #fdf6e3;
-    }
-    .manga-title {
-      margin-top: 0;
-      font-weight: bold;
-      font-size: 1.1em;
-      letter-spacing: 0.5px;
-    }
-    @media (max-width: 600px) {
-      .cover-thumb { width: 96vw; }
-      .manga-list { gap: 24px; }
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Manga Library</title>
+<link rel="stylesheet" href="css/style.css" />
+<link rel="icon" href="favicon.ico" />
+<meta name="theme-color" content="#0b0b0e" />
 </head>
 <body>
-  <button id="mode-toggle"></button>
-  <div class="main-content">
-    <h1>Welcome to the Manga Library</h1>
-    <div class="manga-list">
-      <div class="manga-item">
-        <a href="shatteredhorizons/index.html">
-          <img src="shatteredhorizons/cover.png" alt="Shattered Horizons" class="cover-thumb">
-          <div class="manga-title">Shattered Horizons</div>
-        </a>
-      </div>
-    </div>
-  </div>
+<header class="site-header">
+<h1 class="logo">Manga Library</h1>
+<button id="modeToggle" class="mode-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">🌗</button>
+</header>
 
-  <script src="theme.js"></script>
+
+<main class="container">
+<div id="chapterGrid" class="chapter-grid" aria-live="polite"></div>
+</main>
+
+
+<template id="chapterCardTpl">
+<a class="chapter-card" href="#">
+<div class="thumb-wrap">
+<img class="thumb" alt="Chapter thumbnail" loading="lazy" />
+</div>
+<div class="chapter-meta">
+<h2 class="chapter-title"></h2>
+<p class="chapter-sub">Pages: <span class="chapter-pages"></span></p>
+</div>
+</a>
+</template>
+
+
+<script src="js/script.js"></script>
+<script>
+App.initIndex();
+</script>
 </body>
 </html>
-
