@@ -5,23 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Manga Viewer</title>
   <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="assets/icons/favicon.ico">
 </head>
 <body>
   <header>
-    <a href="index.html">⬅ Library</a> |
-    <a id="back-to-chapters">⬅ Back to Chapters</a>
+    <a id="back-to-chapters">← Back</a>
     <h1 id="viewer-title"></h1>
+    <button id="mode-toggle">Switch Mode</button>
   </header>
 
-  <main>
-    <div id="page-container"></div>
-  </main>
+  <main id="viewer"></main>
 
-  <footer>
-    <button id="prev-btn">⬅ Prev</button>
-    <span id="page-indicator"></span>
-    <button id="next-btn">Next ➡</button>
-  </footer>
+  <!-- Floating nav arrows -->
+  <button id="prev-btn" class="nav-btn">⟨ Prev</button>
+  <button id="next-btn" class="nav-btn">Next ⟩</button>
 
   <script src="js/script.js"></script>
 </body>
