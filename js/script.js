@@ -228,3 +228,58 @@ async function loadViewer() {
 if (window.location.pathname.endsWith("viewer.html")) {
   document.addEventListener("DOMContentLoaded", loadViewer);
 }
+// Load viewer with continuous + adaptive layout
+async function loadViewer() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const mangaFolder = urlParams.get("manga");
+  const chapterId = urlParams.get("chapter");
+
+  if (!mangaFolder || !chapterId) {
+    document.body.innerHTML = "<p>Error: Missing manga or chapter info.</p>";
+    return;
+  }
+
+  try {
+    const response = await fetch(`assets/${mangaFolder}/info.json`);
+    const data = await response.json();
+
+    const mangaTitle = data.title;
+    document.getElementById("viewer-title").textContent = `${mangaTitle} - ${chapterId}`;
+    document.getElementById("back-to-chapters").href = `chapters.html?manga=${mangaFolder}`;
+
+    const chapter = data.chapters.find(ch => ch.id === chapterId);
+    if (!chapter) {
+      document.body.innerHTML = "<p>Error: Chapter not found.</p>";
+      return;
+    }
+
+    const totalPages = chapter.pages;
+    const pageContainer = document.getElementById("page-container");
+
+    // Detect layout mode
+    function applyLayout() {
+      if (window.innerWidth >= 900) {
+        pageContainer.classList.add("double-page");
+      } else {
+        pageContainer.classList.remove("double-page");
+      }
+    }
+
+    window.addEventListener("resize", applyLayout);
+
+    // Render all pages continuously
+    pageContainer.innerHTML = "";
+    for (let i = 1; i <= totalPages; i++) {
+      const img = document.createElement("img");
+      img.src = `assets/${mangaFolder}/${chapterId}/${i}.png`;
+      img.alt = `Page ${i}`;
+      img.classList.add("manga-page");
+      pageContainer.appendChild(img);
+    }
+
+    applyLayout();
+
+  } catch (error) {
+    console.error("Error loading viewer:", error);
+  }
+}
